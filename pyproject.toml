@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "hint"
+version = "0.1.0"
+description = ""
+authors = ["Daniel DeFreez <defreezd@sou.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+langchain = "^0.0.142"
+openai = "^0.27.4"
+pyarmor = "^8.1.6"
+pyinstaller = "^5.10.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
