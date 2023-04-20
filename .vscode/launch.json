@@ -8,22 +8,20 @@
             "type": "java",
             "name": "Lox",
             "request": "launch",
-            "mainClass": "edu.sou.cs452.Lab4.Lox",
+            "mainClass": "edu.sou.cs452.Lab5.Lox",
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
             "stopOnEntry": false,
             "args": "",
-            "projectName": "Lab4"
+            "projectName": "Lab5"
         },
         {
             "type": "java",
             "name": "GenerateAst",
             "request": "launch",
-            "mainClass": "edu.sou.cs452.Lab4.GenerateAst",
+            "mainClass": "edu.sou.cs452.Lab5.GenerateAst",
             "cwd": "${workspaceFolder}",
             "args": "",
-            "projectName": "Lab4",
-            "console": "integratedTerminal",
+            "projectName": "Lab5",
             "stopOnEntry": false
         }
     ]
