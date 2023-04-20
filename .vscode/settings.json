@@ -4,4 +4,6 @@
     "java.debug.logLevel":"verbose",
     "java.debug.settings.console":"integratedTerminal"
     //"java.debug.settings.vmArgs"
+    // add a Garbage Collector
+    // Increase the heap 
 }
