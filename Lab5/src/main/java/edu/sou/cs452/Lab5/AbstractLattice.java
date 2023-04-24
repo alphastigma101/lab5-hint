@@ -1,5 +1,5 @@
 package edu.sou.cs452.Lab5;
-
+// Frzzle is down until openai increases our quota 4/24/23 April 
 import edu.sou.cs452.Lab5.AbstractValue;
 abstract class AbstractLattic {
     public final static AbstractValue plus(AbstractValue leftValue, AbstractValue rightValue) {
