@@ -7,6 +7,26 @@ import java.util.List;
 import static edu.sou.cs452.Lab5.TokenType.*;
 
 class Scanner {
+    private static final Map<String, TokenType> keywords;
+    static {
+        keywords = new HashMap<>();
+        keywords.put("and",    AND);
+        keywords.put("class",  CLASS);
+        keywords.put("else",   ELSE);
+        keywords.put("false",  FALSE);
+        keywords.put("for",    FOR);
+        keywords.put("fun",    FUN);
+        keywords.put("if",     IF);
+        keywords.put("nil",    NIL);
+        keywords.put("or",     OR);
+        keywords.put("print",  PRINT);
+        keywords.put("return", RETURN);
+        keywords.put("super",  SUPER);
+        keywords.put("this",   THIS);
+        keywords.put("true",   TRUE);
+        keywords.put("var",    VAR);
+        keywords.put("while",  WHILE);
+    }   
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
@@ -24,6 +44,9 @@ class Scanner {
             case '+': addToken(PLUS); break;
             case '*': addToken(STAR); break; 
             case '"': string(); break;
+            case 'o':
+                if (match('r')) { addToken(OR); }
+                break;
             case ' ':
             case '\r':
             case '\t':
@@ -50,7 +73,9 @@ class Scanner {
                 break;
             default: 
                 if (isDigit(c)) { number(); }
-                //else if (isAlpha(c)) { identifier(); }
+                else if (isAlpha(c)) { identifier(); }
+                //else { Lox.error(line, "Unexpected character."); }
+                //Lox.error(line, "Unexpected character.");
                 break;
         }
     }
