@@ -7,8 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 /**
+ * Expressions you should try: 
+ *  (1 / 2) 
+ *  (60 - 5)
+ *  (2 * 6) 
+ *  (10 - 5)
  * 
- *
 */
 public class Lox {
     private static final Interpreter interpreter = new Interpreter();
@@ -33,6 +37,7 @@ public class Lox {
         run(new String(bytes, Charset.defaultCharset()));
         // Indicate an error in the exit code.
         if (hadError) System.exit(65);
+        if (hadRuntimeError) System.exit(70);
     }
     /* 
      * A
@@ -60,21 +65,7 @@ public class Lox {
         // Stop if there was a syntax error.
         if (hadError) return;
         interpreter.interpret(expression);
-        
 
-        /*System.out.println(new DotPrinter().print(expression)); // Print out the contents that are going to be put in input.dot
-        String dotContent = new DotPrinter().print(expression); // Create a new instance of the contents 
-        // Import the FileWriter if this code is needed
-
-        // Create a FileWriter object for writing to a file named "input.dot"
-        FileWriter writer;
-        try {
-            writer = new FileWriter("input.dot");
-            writer.write(dotContent); // Write the DOT content to the file
-            writer.close();  // Close the FileWriter
-        } catch (IOException e) { e.printStackTrace(); }
-        System.out.println("DOT content has been written to input.dot.");*/
-    
         // For now, just print the tokens.
         for (Token token : tokens) { System.out.println(token); }
     }
@@ -100,6 +91,6 @@ public class Lox {
         System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
         hadRuntimeError = true;
     }
-    
+
 }  
 

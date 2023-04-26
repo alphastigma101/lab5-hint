@@ -23,6 +23,59 @@ abstract class SExpr implements LoxIdentifer<String> {
         @Override
         public String id() { return Integer.toString(this.value);  }
     }
+    static class Plus extends SExpr {
+        final Object value;
+        Plus(Object value) { this.value = value; }
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) { return visitor.visitNumber(this); }
+    
+        @Override
+        public String id() { return Integer.toString(this.value);  }
+
+    }
+
+    static class Minus extends SExpr {
+        final Object value;
+        Minus(Object value) { this.value = value; }
+        
+        @Override
+        public <R> R accept(Visitor<R> visitor) { return visitor.visitNumber(this); }
+    
+        @Override
+        public String id() { return Integer.toString(this.value);  }
+    }
+    static class Multiply extends SExpr {
+        final Object value;
+        Multiply(Object value) { this.value = value; }
+        
+        @Override
+        public <R> R accept(Visitor<R> visitor) { return visitor.visitNumber(this); }
+    
+        @Override
+        public String id() { return Integer.toString(this.value);  }
+    }
+
+    static class Division extends SExpr {
+        final Object value;
+        Division(Object value) { this.value = value; }
+        
+        @Override
+        public <R> R accept(Visitor<R> visitor) { return visitor.visitNumber(this); }
+    
+        @Override
+        public String id() { return Integer.toString(this.value);  }
+    }
+    static class Invert extends SExpr {
+        final Object value;
+        Invert(Object value) { this.value = value; }
+        
+        @Override
+        public <R> R accept(Visitor<R> visitor) { return visitor.visitNumber(this); }
+    
+        @Override
+        public String id() { return Integer.toString(this.value);  }
+    }
 
     /* 
      * A

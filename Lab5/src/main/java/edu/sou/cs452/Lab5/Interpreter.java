@@ -23,6 +23,7 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
     /* 
      * a
     */
+    
     private boolean isTruthy(Object object) {
         if (object == null) return false;
         if (object instanceof Boolean) return (boolean)object;
@@ -34,13 +35,11 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         return a.equals(b);
     }
     private String stringify(Object object) {
-        if (object == null) return "nil";
+        if ( object == null ) return "nil";
     
         if (object instanceof Double) {
           String text = object.toString();
-          if (text.endsWith(".0")) {
-            text = text.substring(0, text.length() - 2);
-          }
+          if (text.endsWith(".0")) { text = text.substring(0, text.length() - 2); }
           return text;
         }
         return object.toString();
@@ -87,60 +86,3 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         return null;
     }
 }
-
-
-/*private void plus() {
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
-          while (isDigit(peek())) advance();
-        }
-        Integer value = Integer.parseInt(source.substring(start, current));
-        addToken(PLUS, value);
-    }
-    private void minus() {
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
-          while (isDigit(peek())) advance();
-        }
-        Integer value = Integer.parseInt(source.substring(start, current));
-        addToken(MINUS, value);
-    }
-    private void multiply() {
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
-          while (isDigit(peek())) advance();
-        }
-        Integer value = Integer.parseInt(source.substring(start, current));
-        addToken(STAR, value);
-    }
-    private void divide() {
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
-          while (isDigit(peek())) advance();
-        }
-        Integer value = Integer.parseInt(source.substring(start, current));
-        addToken(SLASH, value);
-    }
-    private void invert() {
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
-          while (isDigit(peek())) advance();
-        }
-        Integer value = Integer.parseInt(source.substring(start, current));
-        addToken(SLASH, value);
-    }*/

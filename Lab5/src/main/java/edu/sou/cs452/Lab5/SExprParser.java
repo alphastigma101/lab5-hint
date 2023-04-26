@@ -19,12 +19,25 @@ class SExprParser {
         if (match(LEFT_PAREN)) return pair();
 
         // If we see a number, then it is a number.
-        if (match(NUMBER)) return number();
+        else if (match(NUMBER)) return number();
+
+        // if we see a star, then it is multiplication
+        else if (match(STAR)) return multiply();
+
+        // if we see a slash, then it is division
+        else if (match(SLASH)) return divide();
+
+        // if we see a plus, then it is addition
+        else if (match(PLUS)) return plus();
+
+        // if we see a minus, then it is a minus 
+        else if (match(MINUS)) return minus(); 
         
         // Otherwise it is an error.
         Lox.error(peek(), "Expected expression.");        
         return null;
     }
+
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
             if (check(type)) {
@@ -33,7 +46,7 @@ class SExprParser {
             }
         }
         return false;
-    }
+    }    
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
             return peek().type == type;
@@ -53,6 +66,61 @@ class SExprParser {
         // Cast the literal to an integer.
         Integer value = (Integer) previous().literal;
         return new SExpr.Number(value);
+    }
+    private SExpr plus() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Object value = Integer.parseInt(source.substring(start, current));
+        addToken(PLUS, value);
+    }
+    private SExpr minus() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(MINUS, value);
+    }
+    private SExpr multiply() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(STAR, value);
+    }
+    private SExpr divide() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(SLASH, value);
+    }
+    private SExpr invert() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(SLASH, value);
     }
     private SExpr pair() {
         // Parse the left side of the pair.
