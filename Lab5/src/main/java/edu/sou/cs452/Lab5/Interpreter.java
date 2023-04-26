@@ -7,7 +7,7 @@ package edu.sou.cs452.Lab5;
  * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
 */
 import static edu.sou.cs452.Lab5.TokenType.*;
-abstract class Interpreter implements SExpr.Visitor<Object> {
+class Interpreter implements Expr.Visitor<Object> {
     void interpret(SExpr expression) { 
         try {
           Object value = evaluate(expression);
@@ -31,7 +31,7 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
     /* 
      * This function is a helper which simply sends back the expression
     */
-    private Object evaluate(SExpr expr) { return expr.accept(this); }
+    private Object evaluate(Expr expr) { return expr.accept(this); }
     
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
@@ -43,7 +43,7 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
     @Override
-    public Object visitBinaryExpr(SExpr.Binary expr) {
+    public Object visitBinaryExpr(Expr.Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right); 
         switch (expr.operator.type) {

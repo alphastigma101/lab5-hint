@@ -6,12 +6,12 @@ class Token {
     */
     final TokenType type;
     final String lexeme;
-    final Object literal;
+    final AbstractValue literal;
     final int line; 
     /* 
      * A
     */
-    Token(TokenType type, String lexeme, Object literal, int line) {
+    Token(TokenType type, String lexeme, AbstractValue literal, int line) {
         this.type = type;
         this.lexeme = lexeme;
         this.literal = literal;
