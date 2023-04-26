@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import static edu.sou.cs452.Lab4.TokenType.*; 
+
+import static edu.sou.cs452.Lab5.TokenType.*;
 
 class Scanner {
     /* 
@@ -20,6 +21,10 @@ class Scanner {
             case '(': addToken(LEFT_PAREN); break;
             case ')': addToken(RIGHT_PAREN); break;
             case '.': addToken(DOT); break;
+            case '+': addToken(PLUS); break;
+            case '-': addToken(MINUS); break;
+            case '*': addToken(STAR); break;
+            case '/': addToken(SLASH); break;
             case ' ':
             case '\r':
             case '\t':

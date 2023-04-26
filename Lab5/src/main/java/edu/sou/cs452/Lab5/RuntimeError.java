@@ -5,10 +5,10 @@ class RuntimeError extends RuntimeException {
      * A
     */
     final Token token;
-    /* 
-     * A
-    */
     RuntimeError(Token token, String message) {
+      /* 
+        * A
+      */
       super(message);
       this.token = token;
     }

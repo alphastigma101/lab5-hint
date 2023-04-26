@@ -2,7 +2,7 @@ package edu.sou.cs452.Lab5;
 
 import java.util.List;
 
-import static edu.sou.cs452.Lab4.TokenType.*; 
+import static edu.sou.cs452.Lab5.TokenType.*; 
 
 class SExprParser {
     private static class ParseError extends RuntimeException {}
@@ -66,7 +66,27 @@ class SExprParser {
             SExpr right = pair();
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
             return new SExpr.Pair(left, right);
-        } 
+        }
+        else if (match(TokenType.STAR))  {
+            SExpr right = expression();
+            consume(TokenType.NUMBER, "Excpect 'number' after expression.");
+            return new SExpr.Pair(left, right);
+        }
+        else if (match(TokenType.SLASH))  {
+            SExpr right = expression();
+            consume(TokenType.NUMBER, "Excpect 'number' after expression.");
+            return new SExpr.Pair(left, right);
+        }
+        else if (match(TokenType.PLUS))  {
+            SExpr right = expression();
+            consume(TokenType.NUMBER, "Excpect 'number' after expression.");
+            return new SExpr.Pair(left, right);
+        }
+        else if (match(TokenType.MINUS))  {
+            SExpr right = expression();
+            consume(TokenType.NUMBER, "Excpect 'number' after expression.");
+            return new SExpr.Pair(left, right);
+        }
         else {
             // Error
             Lox.error(peek(), "Expected '.' or '(' after expression.");

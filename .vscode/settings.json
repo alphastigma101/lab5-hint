@@ -2,8 +2,9 @@
     "java.debug.settings.showStaticVariables": true,
     "java.debug.settings.hotCodeReplace":"manual",
     "java.debug.logLevel":"verbose",
-    "java.debug.settings.console":"integratedTerminal"
-    //"java.debug.settings.vmArgs"
-    // add a Garbage Collector
+    "java.debug.settings.console":"integratedTerminal",
+    "java.debug.settings.vmArgs": "-Xaggressive -Xenableexplicitgc -Xtrace -Xtune:virtualized"
+
+    // http://setgetweb.com/p/java7/diag/appendixes/cmdline/commands_jvm.html
     // Increase the heap 
 }

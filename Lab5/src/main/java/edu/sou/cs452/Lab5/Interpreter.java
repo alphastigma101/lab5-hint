@@ -6,20 +6,20 @@ package edu.sou.cs452.Lab5;
  * If the interpreter determines that an expression is definitely positive it will return POSITIVE. 
  * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
 */
-abstract class Interpreter implements Expr.Visitor<Object> {
-    void interpret(Expr expression) { 
+
+abstract class Interpreter implements SExpr.Visitor<Object> {
+    void interpret(SExpr expression) { 
         try {
           Object value = evaluate(expression);
           System.out.println(stringify(value));
-        } catch (RuntimeError error) {
-          Lox.runtimeError(error);
-        }
+        } 
+        catch (RuntimeError error) { Lox.runtimeError(error); }
     }
     /* 
      * A
     */
     @Override
-    public Object visitLiteralExpr(Expr.Literal expr) { return expr.value; }
+    public Object visitLiteralExpr(SExpr.Literal expr) { return expr.value; }
     /* 
      * a
     */
@@ -44,7 +44,6 @@ abstract class Interpreter implements Expr.Visitor<Object> {
           }
           return text;
         }
-    
         return object.toString();
     }
     
@@ -52,45 +51,18 @@ abstract class Interpreter implements Expr.Visitor<Object> {
      * a
     */
     @Override
-    public Object visitUnaryExpr(Expr.Unary expr) {
-        Object right = evaluate(expr.right);
-  
-        switch (expr.operator.type) { 
-            case BANG:
-                return !isTruthy(right);
-            case MINUS: return -(double)right; 
-        }
-
-        // Unreachable.
-        return null;
-    }
-
-    @Override
-    public Object visitGroupingExpr(Expr.Grouping expr) { return evaluate(expr.expression); }
+    public Object visitGroupingExpr(SExpr.Grouping expr) { return evaluate(expr.expression); }
     /* 
      * This function is a helper which simply sends back the expression
     */
-    private Object evaluate(Expr expr) { return expr.accept(this); }
+    private Object evaluate(SExpr expr) { return expr.accept(this); }
+    
     @Override
-    public Object visitBinaryExpr(Expr.Binary expr) {
+    public Object visitBinaryExpr(SExpr.Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right); 
 
         switch (expr.operator.type) {
-            case BANG_EQUAL: return !isEqual(left, right);
-            case EQUAL_EQUAL: return isEqual(left, right);
-            case GREATER:
-                checkNumberOperands(expr.operator, left, right);
-                return (double)left > (double)right;
-            case GREATER_EQUAL:
-                checkNumberOperands(expr.operator, left, right);
-                return (double)left >= (double)right;
-            case LESS:
-                checkNumberOperands(expr.operator, left, right);
-                return (double)left < (double)right;
-            case LESS_EQUAL:
-                checkNumberOperands(expr.operator, left, right);
-                return (double)left <= (double)right;
             case MINUS:
                 checkNumberOperand(expr.operator, right);
                 return (double)left - (double)right;
@@ -105,7 +77,6 @@ abstract class Interpreter implements Expr.Visitor<Object> {
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
         }
-
         // Unreachable.
         return null;
     }
@@ -113,11 +84,9 @@ abstract class Interpreter implements Expr.Visitor<Object> {
         if (operand instanceof Double) return;
         throw new RuntimeError(operator, "Operand must be a number.");
     }
-    private void checkNumberOperands(Token operator,
-        Object left, Object right) {
+    private void checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
 
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
-
 }

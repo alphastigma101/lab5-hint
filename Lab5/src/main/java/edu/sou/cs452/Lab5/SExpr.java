@@ -8,6 +8,8 @@ abstract class SExpr implements LoxIdentifer<String> {
     interface Visitor<R> {
         R visitNumber(Number expr);
         R visitPair(Pair expr);
+        R visitGroupingExpr(Grouping expr);
+        R visitBinaryExpr(Binary expr);
     } 
     /* 
      * A

@@ -8,5 +8,5 @@ package edu.sou.cs452.Lab5;
  * The Top element represents the set of all possible values, and the Bottom element represents the empty set. The Positive element represents the set of all positive numbers, the Negative element represents the set of all negative numbers, and the Zero element represents the set containing the single number zero.
 */
 enum AbstractValue {
-    BOTTOM, TOP, POSITIVE, NEGATIVE, ZERO, EOF
+    BOTTOM, TOP, POSITIVE, NEGATIVE, ZERO
 }

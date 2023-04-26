@@ -64,6 +64,7 @@ public class Lox {
 
         /*System.out.println(new DotPrinter().print(expression)); // Print out the contents that are going to be put in input.dot
         String dotContent = new DotPrinter().print(expression); // Create a new instance of the contents 
+        // Import the FileWriter if this code is needed
 
         // Create a FileWriter object for writing to a file named "input.dot"
         FileWriter writer;
