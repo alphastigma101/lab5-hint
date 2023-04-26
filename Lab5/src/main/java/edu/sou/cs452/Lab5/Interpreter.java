@@ -6,7 +6,7 @@ package edu.sou.cs452.Lab5;
  * If the interpreter determines that an expression is definitely positive it will return POSITIVE. 
  * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
 */
-
+import static edu.sou.cs452.Lab5.TokenType.*;
 abstract class Interpreter implements SExpr.Visitor<Object> {
     void interpret(SExpr expression) { 
         try {
@@ -31,7 +31,6 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
     private boolean isEqual(Object a, Object b) {
         if (a == null && b == null) return true;
         if (a == null) return false;
-    
         return a.equals(b);
     }
     private String stringify(Object object) {
@@ -46,7 +45,6 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         }
         return object.toString();
     }
-    
     /* 
      * a
     */
@@ -57,11 +55,19 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
     */
     private Object evaluate(SExpr expr) { return expr.accept(this); }
     
+    private void checkNumberOperand(Token operator, Object operand) {
+        if (operand instanceof Double) return;
+        throw new RuntimeError(operator, "Operand must be a number.");
+    }
+    private void checkNumberOperands(Token operator, Object left, Object right) {
+        if (left instanceof Double && right instanceof Double) return;
+
+        throw new RuntimeError(operator, "Operands must be numbers.");
+    }
     @Override
     public Object visitBinaryExpr(SExpr.Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right); 
-
         switch (expr.operator.type) {
             case MINUS:
                 checkNumberOperand(expr.operator, right);
@@ -80,13 +86,61 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         // Unreachable.
         return null;
     }
-    private void checkNumberOperand(Token operator, Object operand) {
-        if (operand instanceof Double) return;
-        throw new RuntimeError(operator, "Operand must be a number.");
-    }
-    private void checkNumberOperands(Token operator, Object left, Object right) {
-        if (left instanceof Double && right instanceof Double) return;
-
-        throw new RuntimeError(operator, "Operands must be numbers.");
-    }
 }
+
+
+/*private void plus() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(PLUS, value);
+    }
+    private void minus() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(MINUS, value);
+    }
+    private void multiply() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(STAR, value);
+    }
+    private void divide() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(SLASH, value);
+    }
+    private void invert() {
+        while (isDigit(peek())) advance();
+        // Look for a fractional part.
+        if (peek() == '.' && isDigit(peekNext())) {
+          // Consume the "."
+          advance();
+          while (isDigit(peek())) advance();
+        }
+        Integer value = Integer.parseInt(source.substring(start, current));
+        addToken(SLASH, value);
+    }*/
