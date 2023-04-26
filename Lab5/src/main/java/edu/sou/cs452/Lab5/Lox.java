@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-
 /**
  * 
  *
@@ -15,9 +14,6 @@ public class Lox {
     private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
-    /* 
-     * a
-    */
     public static void main(String[] args) throws IOException {
         if ( args.length > 1 ) {
             System.out.println("Usage: jlox [script]");
@@ -26,19 +22,12 @@ public class Lox {
         else if ( args.length == 1 ) { runFile(args[0]); } 
         else { runPrompt(); }
     }
-    /* 
-     * a
-    */
     private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
         // Indicate an error in the exit code.
         if (hadError) System.exit(65);
-        if (hadRuntimeError) System.exit(70);
     }
-    /* 
-     * a
-    */
     private static void runPrompt() throws IOException {
         hadError = false;
         InputStreamReader input = new InputStreamReader(System.in); // this is where the program gets ready for the user to enter some input 
@@ -51,28 +40,39 @@ public class Lox {
             hadError = false;
         }
     }
-    /* 
-     * a
-    */
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
+        SExprParser parser = new SExprParser(tokens);
+        SExpr expression = parser.parse();
         // Stop if there was a syntax error.
         if (hadError) return;
         interpreter.interpret(expression);
+        
+
+        /*System.out.println(new DotPrinter().print(expression)); // Print out the contents that are going to be put in input.dot
+        String dotContent = new DotPrinter().print(expression); // Create a new instance of the contents 
+
+        // Create a FileWriter object for writing to a file named "input.dot"
+        FileWriter writer;
+        try {
+            writer = new FileWriter("input.dot");
+            writer.write(dotContent); // Write the DOT content to the file
+            writer.close();  // Close the FileWriter
+        } catch (IOException e) { e.printStackTrace(); }
+        System.out.println("DOT content has been written to input.dot.");*/
     
         // For now, just print the tokens.
         for (Token token : tokens) { System.out.println(token); }
     }
-    /* 
-     * a
-    */
     static void error(int line, String message) { report(line, "", message); }
-    /* 
-     * a
-    */
     private static void report(int line, String where, String message) {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
+    static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) { report(token.line, " at end", message); } 
+        else { report(token.line, " at '" + token.lexeme + "'", message); }
+    }
 }  
+
