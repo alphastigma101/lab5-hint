@@ -16,24 +16,8 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         catch (RuntimeError error) { Lox.runtimeError(error); }
     }
     /* 
-     * A
-    */
-    @Override
-    public Object visitLiteralExpr(SExpr.Literal expr) { return expr.value; }
-    /* 
      * a
     */
-    
-    private boolean isTruthy(Object object) {
-        if (object == null) return false;
-        if (object instanceof Boolean) return (boolean)object;
-        return true;
-    }
-    private boolean isEqual(Object a, Object b) {
-        if (a == null && b == null) return true;
-        if (a == null) return false;
-        return a.equals(b);
-    }
     private String stringify(Object object) {
         if ( object == null ) return "nil";
     
@@ -44,11 +28,6 @@ abstract class Interpreter implements SExpr.Visitor<Object> {
         }
         return object.toString();
     }
-    /* 
-     * a
-    */
-    @Override
-    public Object visitGroupingExpr(SExpr.Grouping expr) { return evaluate(expr.expression); }
     /* 
      * This function is a helper which simply sends back the expression
     */

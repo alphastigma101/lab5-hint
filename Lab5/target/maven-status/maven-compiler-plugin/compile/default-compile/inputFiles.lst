@@ -1,0 +1,11 @@
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/LoxIdentifer.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/AbstractLattice.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/SExpr.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/Scanner.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/AbstractValue.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/Interpreter.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/Token.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/SExprParser.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/RuntimeError.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/Lox.java
+/workspaces/lab5-hint/Lab5/src/main/java/edu/sou/cs452/Lab5/TokenType.java

@@ -1,6 +1,6 @@
 package edu.sou.cs452.Lab5;
-
-import edu.sou.cs452.Lab5.AbstractValue.*;
+import java.util.HashMap; // import the HashMap class
+import static edu.sou.cs452.Lab5.AbstractValue.*;
 abstract class AbstractLattic {
     public final static AbstractValue plus(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
