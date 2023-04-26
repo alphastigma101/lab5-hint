@@ -1,7 +1,12 @@
 package edu.sou.cs452.Lab5;
 
-
-class Interpreter implements Expr.Visitor<Object> {
+/* 
+ * Your abstract interpreter will simply return the sign of the expression as an over-approximation of the possible values of the expression. 
+ * For example, if the interpreter determines that an expression is either positive or negative it will return TOP. 
+ * If the interpreter determines that an expression is definitely positive it will return POSITIVE. 
+ * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
+*/
+abstract class Interpreter implements Expr.Visitor<Object> {
     void interpret(Expr expression) { 
         try {
           Object value = evaluate(expression);

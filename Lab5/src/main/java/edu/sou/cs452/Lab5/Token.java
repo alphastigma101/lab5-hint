@@ -8,13 +8,18 @@ class Token {
     final String lexeme;
     final Object literal;
     final int line; 
-
+    /* 
+     * A
+    */
     Token(TokenType type, String lexeme, LiteralValue literal, int line) {
         this.type = type;
         this.lexeme = lexeme;
         this.literal = literal;
         this.line = line;
     }
+    /* 
+     * A
+    */
     public String toString() {
         return type + " " + lexeme + " " + literal;
     } 
