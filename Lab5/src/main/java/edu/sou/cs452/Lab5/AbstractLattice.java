@@ -2,6 +2,10 @@ package edu.sou.cs452.Lab5;
 import java.util.HashMap; // import the HashMap class
 import static edu.sou.cs452.Lab5.AbstractValue.*;
 abstract class AbstractLattic {
+    /** 
+     * @param Expr.Binary 
+     * @return null if it is not reachable 
+    */
     public final static AbstractValue plus(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
     
