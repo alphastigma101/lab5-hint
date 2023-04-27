@@ -65,28 +65,28 @@ abstract class AbstractLattic {
         // left +
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE);
-        left.put(NEGATIVE, TOP);
-        left.put(ZERO, POSITIVE);
+        left.put(NEGATIVE, NEGATIVE);
+        left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
+        left.put(TOP, TOP); // POSITIVE / TOP = TOP?
         lookup.put(POSITIVE, left);
     
         // left -
         left = new HashMap<>();
-        left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, NEGATIVE);
-        left.put(ZERO, NEGATIVE);
+        left.put(POSITIVE, NEGATIVE);
+        left.put(NEGATIVE, POSITIVE);
+        left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
+        left.put(TOP, TOP); // NEGATIVE / TOP = NEGATIVE?
         lookup.put(NEGATIVE, left);
     
         // left 0
         left = new HashMap<>();
-        left.put(POSITIVE, POSITIVE);
-        left.put(NEGATIVE, NEGATIVE);
+        left.put(POSITIVE, ZERO); // 0 / POSITIVE
+        left.put(NEGATIVE, ZERO); // 0 / NEGATIVE
         left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
+        left.put(TOP, ZERO); // 0 / TOP = 0?
         lookup.put(ZERO, left);
     
         // left Bottom
@@ -100,44 +100,45 @@ abstract class AbstractLattic {
     
         // left Top
         left = new HashMap<>();
-        left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, TOP);
-        left.put(ZERO, TOP);
+        left.put(POSITIVE, POSITIVE); // POSTIVE / POSITVE = POSITVE?
+        left.put(NEGATIVE, NEGATIVE); // ?
+        left.put(ZERO, BOTTOM); // ? 
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
+        left.put(TOP, TOP); // ?
         lookup.put(TOP, left);
     
         return lookup.get(leftValue).get(rightValue);
     }
     public final static AbstractValue multiply(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
-    
+        // POSITIVE * POSITIVE = VALUE
         HashMap<AbstractValue, AbstractValue> left;
         // left +
-        left = new HashMap<>();
-        left.put(POSITIVE, POSITIVE);
-        left.put(NEGATIVE, TOP);
-        left.put(ZERO, POSITIVE);
-        left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
-        lookup.put(POSITIVE, left);
-    
-        // left -
-        left = new HashMap<>();
-        left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, NEGATIVE);
-        left.put(ZERO, NEGATIVE);
-        left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP);
-        lookup.put(NEGATIVE, left);
-    
-        // left 0
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE);
         left.put(NEGATIVE, NEGATIVE);
         left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
+        lookup.put(POSITIVE, left);
+    
+        // left -
+        // NEGATIVE * POSITIVE = NEGATIVE
+        left = new HashMap<>();
+        left.put(POSITIVE, NEGATIVE);
+        left.put(NEGATIVE, POSITIVE);
+        left.put(ZERO, ZERO);
+        left.put(BOTTOM, BOTTOM);
+        left.put(TOP, TOP);
+        lookup.put(NEGATIVE, left);
+    
+        // left 0
+        left = new HashMap<>();
+        left.put(POSITIVE, ZERO);
+        left.put(NEGATIVE, ZERO);
+        left.put(ZERO, ZERO);
+        left.put(BOTTOM, BOTTOM);// ZERO * ERROR = ERROR?
+        left.put(TOP, ZERO);
         lookup.put(ZERO, left);
     
         // left Bottom
@@ -152,12 +153,11 @@ abstract class AbstractLattic {
         // left Top
         left = new HashMap<>();
         left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, TOP);
-        left.put(ZERO, TOP);
+        left.put(NEGATIVE, NEGATIVE); // POSITIVE * NEGATIVE = NEGATIVE?
+        left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
         lookup.put(TOP, left);
-    
         return lookup.get(leftValue).get(rightValue);
     }
     public final static AbstractValue minus(AbstractValue leftValue, AbstractValue rightValue) {
