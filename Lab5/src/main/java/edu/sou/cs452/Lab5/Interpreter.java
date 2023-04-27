@@ -6,7 +6,7 @@ package edu.sou.cs452.Lab5;
  * If the interpreter determines that an expression is definitely positive it will return POSITIVE. 
  * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
 */
-import static edu.sou.cs452.Lab5.TokenType.*;
+import static edu.sou.cs452.Lab5.AbstractValue.*;
 class Interpreter implements Expr.Visitor<Object> {
     void interpret(Expr expression) { 
         try {
@@ -15,8 +15,10 @@ class Interpreter implements Expr.Visitor<Object> {
         } 
         catch (RuntimeError error) { Lox.runtimeError(error); }
     }
-    /* 
-     * a
+    /** 
+     * .....
+     * @param object is a Object type
+     * @return Returns a string
     */
     private String stringify(Object object) {
         if ( object == null ) return "nil";
@@ -27,19 +29,33 @@ class Interpreter implements Expr.Visitor<Object> {
         }
         return object.toString();
     }
-    /* 
+    /** 
      * This function is a helper which simply sends back the expression
+     * @param expr 
+     * @return expr.accecpt(this)
     */
     private Object evaluate(Expr expr) { return expr.accept(this); }
-    
+    /** 
+     * @param operator Is a Token type
+     * @param operand is a Object type
+     * @return None
+    */
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
         throw new RuntimeError(operator, "Operand must be a number.");
     }
+    /** 
+     * @param Expr.Binary 
+     * @return null if it is not reachable 
+    */
     private void checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
+    /** 
+     * @param Expr.Binary 
+     * @return null if it is not reachable 
+    */
     @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
         Object left = evaluate(expr.left);
@@ -73,9 +89,12 @@ class Interpreter implements Expr.Visitor<Object> {
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
         }
-        // Unreachable.
         return null;
     }
+    /** 
+     * @param Expr.Unary 
+     * @return null if it is not reachable
+    */
     @Override
     public Object visitUnaryExpr(Expr.Unary expr) {
         Object right = evaluate(expr.right);
@@ -86,24 +105,37 @@ class Interpreter implements Expr.Visitor<Object> {
             case MINUS:
             return -(double)right;
         }
-  
-        // Unreachable.
         return null;
     }
+    /** 
+     * @param object is a Object Type
+     * @return True or False
+    */
     private boolean isTruthy(Object object) {
         if (object == null) return false;
         if (object instanceof Boolean) return (boolean)object;
         return true;
     }
+    /** 
+     * @param a is a Object type
+     * @param b is a Object type
+     * @return a.equals(b)
+    */
     private boolean isEqual(Object a, Object b) {
         if (a == null && b == null) return true;
         if (a == null) return false;
         return a.equals(b);
     }
-    
+    /** 
+     * @param expr  
+     * @return evaluate(expr.expression)
+    */
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr) { return evaluate(expr.expression); }
-
+    /** 
+     * @param expr  
+     * @return evaluate(expr.expression)
+    */
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) { return expr.value; }
 
