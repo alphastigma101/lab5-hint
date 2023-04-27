@@ -1,17 +1,16 @@
 package edu.sou.cs452.Lab5;
 
 class Token {
-    /** 
-     * @param Expr.Binary 
-     * @return null if it is not reachable 
-    */
     final TokenType type;
     final String lexeme;
     final AbstractValue literal;
     final int line; 
     /** 
-     * @param Expr.Binary 
-     * @return null if it is not reachable 
+     * @param type is a TokenType 
+     * @param lexeme is a String type. String type functions like a wrapper
+     * @param literal is a AbstractValue type 
+     * @param line is a integer type
+     * @return None
     */
     Token(TokenType type, String lexeme, AbstractValue literal, int line) {
         this.type = type;
@@ -20,8 +19,8 @@ class Token {
         this.line = line;
     }
     /** 
-     * @param Expr.Binary 
-     * @return null if it is not reachable 
+     * @param None
+     * @return type + " " + lexeme + " " + literal
     */
     public String toString() { return type + " " + lexeme + " " + literal; } 
 }

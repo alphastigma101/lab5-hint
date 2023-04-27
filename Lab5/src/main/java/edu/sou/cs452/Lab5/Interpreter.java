@@ -8,6 +8,11 @@ package edu.sou.cs452.Lab5;
 */
 
 class Interpreter implements Expr.Visitor<Object> {
+    /** 
+     * ...
+     * @param expression is Expr type
+     * @return None
+    */
     void interpret(Expr expression) { 
         try {
           Object value = evaluate(expression);
@@ -36,6 +41,7 @@ class Interpreter implements Expr.Visitor<Object> {
     */
     private Object evaluate(Expr expr) { return expr.accept(this); }
     /** 
+     * ....
      * @param operator Is a Token type
      * @param operand is a Object type
      * @return None
@@ -45,8 +51,11 @@ class Interpreter implements Expr.Visitor<Object> {
         throw new RuntimeError(operator, "Operand must be a number.");
     }
     /** 
-     * @param Expr.Binary 
-     * @return null if it is not reachable 
+     * ......
+     * @param operator is a Token type
+     * @param left is a Object type
+     * @param right is a Object type
+     * @return None
     */
     private void checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
@@ -127,13 +136,13 @@ class Interpreter implements Expr.Visitor<Object> {
         return a.equals(b);
     }
     /** 
-     * @param expr  
+     * @param expr is a Expr.Grouping type 
      * @return evaluate(expr.expression)
     */
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr) { return evaluate(expr.expression); }
     /** 
-     * @param expr  
+     * @param expr is a Expr.Literal type  
      * @return evaluate(expr.expression)
     */
     @Override
