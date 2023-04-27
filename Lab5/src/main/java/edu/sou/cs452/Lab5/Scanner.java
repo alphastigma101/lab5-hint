@@ -8,31 +8,16 @@ import java.util.HashMap;
 import static edu.sou.cs452.Lab5.TokenType.*;
 
 class Scanner {
-    private static final Map<String, TokenType> keywords;
-    static {
-        keywords = new HashMap<>();
-        keywords.put("and",    AND);
-        keywords.put("class",  CLASS);
-        keywords.put("else",   ELSE);
-        keywords.put("false",  FALSE);
-        keywords.put("for",    FOR);
-        keywords.put("fun",    FUN);
-        keywords.put("if",     IF);
-        keywords.put("nil",    NIL);
-        keywords.put("or",     OR);
-        keywords.put("print",  PRINT);
-        keywords.put("return", RETURN);
-        keywords.put("super",  SUPER);
-        keywords.put("this",   THIS);
-        keywords.put("true",   TRUE);
-        keywords.put("var",    VAR);
-        keywords.put("while",  WHILE);
-    }   
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
     private int line = 1;
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private void scanToken() {
         char c = advance();
         switch (c) {
@@ -40,19 +25,14 @@ class Scanner {
             case ')': addToken(RIGHT_PAREN); break;
             case '{': addToken(LEFT_BRACE); break;
             case '}': addToken(RIGHT_BRACE); break;
-            case ',': addToken(COMMA); break;
             case '.': addToken(DOT); break;
             case '-': addToken(MINUS); break;
             case '+': addToken(PLUS); break;
-            case ';': addToken(SEMICOLON); break;
             case '*': addToken(STAR); break; 
             case '!': addToken(match('=') ? BANG_EQUAL : BANG); break;
             case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
             case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
             case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
-            case 'o':
-                if (match('r')) { addToken(OR); }
-                break;
             case ' ':
             case '\r':
             case '\t':
@@ -63,12 +43,16 @@ class Scanner {
               break;
             default: 
                 if (isDigit(c)) { number(); }
-                //else if (isAlpha(c)) { identifier(); }
                 //else { Lox.error(line, "Unexpected character."); }
                 //Lox.error(line, "Unexpected character.");
                 break;
         }
     }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private void number() {
         while (isDigit(peek())) advance();
         // Look for a fractional part.
@@ -85,35 +69,56 @@ class Scanner {
 
             while (isDigit(peek())) advance();
         }
-        else if (peek() == '+' && isDigit(peekNext())) {
-            addToken(NUMBER, AbstractValue.POSITIVE);
-            // Consume the "+"
-            advance();
-
-            while (isDigit(peek())) advance();            
-        }
         addToken(NUMBER, AbstractValue.POSITIVE);
     }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private char peek() {
         if (isAtEnd()) return '\0';
         return source.charAt(current);
     }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private char peekNext() {
         if ( current + 1 >= source.length() ) return '\0';
         return source.charAt(current + 1);
     }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
     }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private boolean match(char expected) {
         if (isAtEnd()) return false;
         if (source.charAt(current) != expected) return false;
         current++;
         return true;
     }
-    Scanner(String source) {
-        this.source = source;
-    }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
+    Scanner(String source) { this.source = source; }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     List<Token> scanTokens() {
         while (!isAtEnd()) {
             // We are at the beginning of the next lexeme.
@@ -123,15 +128,29 @@ class Scanner {
         tokens.add(new Token(EOF, "", null, line));
         return tokens;
     }
-    private boolean isAtEnd() {
-        return current >= source.length();
-    }
-    private char advance() {
-        return source.charAt(current++);
-    }
-    private void addToken(TokenType type) {
-        addToken(type, null);
-    }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
+    private boolean isAtEnd() { return current >= source.length(); }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
+    private char advance() { return source.charAt(current++); }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
+    private void addToken(TokenType type) { addToken(type, null); }
+    /**
+     * This function number()
+     * @param None
+     * @return None 
+    */
     private void addToken(TokenType type, AbstractValue literal) {
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));

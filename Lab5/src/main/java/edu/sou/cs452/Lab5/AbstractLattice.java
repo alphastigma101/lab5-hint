@@ -53,6 +53,11 @@ abstract class AbstractLattic {
     
         return lookup.get(leftValue).get(rightValue);
     }
+    /** 
+     * This function should be triggered by the SLASH token 
+     * @param leftValue is a AbstractValue 
+     * @param rightValue is a AbstractValue
+    */
     public final static AbstractValue divide(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
     
