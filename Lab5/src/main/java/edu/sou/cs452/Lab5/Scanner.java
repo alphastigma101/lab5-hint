@@ -5,7 +5,6 @@ import java.util.List;
 
 
 import static edu.sou.cs452.Lab5.TokenType.*;
-
 class Scanner {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
@@ -62,13 +61,19 @@ class Scanner {
           while (isDigit(peek())) advance();
         }
         else if (peek() == '-' && isDigit(peekNext())) {
-            addToken(NUMBER, AbstractValue.NEGATIVE);
             // Consume the "-"
             advance();
 
             while (isDigit(peek())) advance();
+            //String value = source.substring(start, current);
+            //AbstractValue.values();
+            addToken(NUMBER, AbstractValue.NEGATIVE);
         }
-        else { addToken(NUMBER, AbstractValue.POSITIVE); }
+        else { 
+            //System.out.println(source.substring(start, current));
+
+            addToken(NUMBER, AbstractValue.POSITIVE); 
+        }
     }
     /**
      * This function number()

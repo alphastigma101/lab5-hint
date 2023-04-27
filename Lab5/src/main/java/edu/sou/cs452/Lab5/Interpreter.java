@@ -6,7 +6,7 @@ package edu.sou.cs452.Lab5;
  * If the interpreter determines that an expression is definitely positive it will return POSITIVE. 
  * If the interpreter determines that an expression is definitely negative it will return NEGATIVE.
 */
-import static edu.sou.cs452.Lab5.AbstractValue.*;
+
 class Interpreter implements Expr.Visitor<Object> {
     void interpret(Expr expression) { 
         try {
