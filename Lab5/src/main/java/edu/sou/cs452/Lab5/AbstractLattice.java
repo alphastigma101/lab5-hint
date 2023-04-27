@@ -65,7 +65,7 @@ abstract class AbstractLattic {
         // left +
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE);
-        left.put(NEGATIVE, NEGATIVE);
+        left.put(NEGATIVE, NEGATIVE); // ?
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP); // POSITIVE / TOP = TOP?
@@ -109,6 +109,11 @@ abstract class AbstractLattic {
     
         return lookup.get(leftValue).get(rightValue);
     }
+    /** 
+     * This function should be triggered by the SLASH token 
+     * @param leftValue is a AbstractValue 
+     * @param rightValue is a AbstractValue
+    */
     public final static AbstractValue multiply(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
         // POSITIVE * POSITIVE = VALUE
@@ -160,9 +165,19 @@ abstract class AbstractLattic {
         lookup.put(TOP, left);
         return lookup.get(leftValue).get(rightValue);
     }
+    /** 
+     * This function should be triggered by the SLASH token 
+     * @param leftValue is a AbstractValue 
+     * @param rightValue is a AbstractValue
+    */
     public final static AbstractValue minus(AbstractValue leftValue, AbstractValue rightValue) {
         return  plus(leftValue, invert(rightValue));
     }
+    /** 
+     * This function should be triggered by the SLASH token 
+     * @param leftValue is a AbstractValue 
+     * @param rightValue is a AbstractValue
+    */
     public final static AbstractValue invert(AbstractValue rightValue) {
         HashMap<AbstractValue, AbstractValue> lookup = new HashMap<>();
     
