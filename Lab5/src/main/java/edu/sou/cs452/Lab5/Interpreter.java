@@ -20,7 +20,6 @@ class Interpreter implements Expr.Visitor<Object> {
     */
     private String stringify(Object object) {
         if ( object == null ) return "nil";
-    
         if (object instanceof Double) {
           String text = object.toString();
           if (text.endsWith(".0")) { text = text.substring(0, text.length() - 2); }
@@ -39,7 +38,6 @@ class Interpreter implements Expr.Visitor<Object> {
     }
     private void checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
-
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
     @Override
@@ -74,7 +72,6 @@ class Interpreter implements Expr.Visitor<Object> {
                 return (double)left * (double)right;
             case BANG_EQUAL: return !isEqual(left, right);
             case EQUAL_EQUAL: return isEqual(left, right);
-          
         }
         // Unreachable.
         return null;
@@ -101,7 +98,6 @@ class Interpreter implements Expr.Visitor<Object> {
     private boolean isEqual(Object a, Object b) {
         if (a == null && b == null) return true;
         if (a == null) return false;
-    
         return a.equals(b);
     }
     

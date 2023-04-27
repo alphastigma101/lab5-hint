@@ -15,23 +15,20 @@ class Parser {
     private Expr expression() { return equality(); }
     private Expr equality() {
         Expr expr = comparison();
-    
         while (match(BANG_EQUAL, EQUAL_EQUAL)) {
-          Token operator = previous();
-          Expr right = comparison();
-          expr = new Expr.Binary(expr, operator, right);
+            Token operator = previous();
+            Expr right = comparison();
+            expr = new Expr.Binary(expr, operator, right);
         }
         return expr;
     }
     private Expr comparison() {
         Expr expr = term();
-    
         while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
             Token operator = previous();
             Expr right = term();
             expr = new Expr.Binary(expr, operator, right);
         }
-    
         return expr;
     }
     private boolean match(TokenType... types) {
@@ -51,25 +48,6 @@ class Parser {
         Lox.error(token, message);
         return new ParseError();
     }
-    private void synchronize() {
-        advance();
-    
-        while (!isAtEnd()) {
-            if (previous().type == SEMICOLON) return;
-            switch (peek().type) {
-                case CLASS:
-                case FUN:
-                case VAR:
-                case FOR:
-                case IF:
-                case WHILE:
-                case PRINT:
-                case RETURN:
-                return;
-            }
-            advance();
-        }
-    }
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
@@ -86,9 +64,9 @@ class Parser {
     private Expr term() {
         Expr expr = factor();
         while (match(MINUS, PLUS)) {
-          Token operator = previous();
-          Expr right = factor();
-          expr = new Expr.Binary(expr, operator, right);
+            Token operator = previous();
+            Expr right = factor();
+            expr = new Expr.Binary(expr, operator, right);
         }
         return expr;
     }
@@ -117,7 +95,6 @@ class Parser {
             consume(RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
         }
-        return null;
-    }
-    
+        return 0;
+    }   
 }
