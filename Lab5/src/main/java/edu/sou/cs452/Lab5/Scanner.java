@@ -1,7 +1,8 @@
 package edu.sou.cs452.Lab5;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
 
 
 import static edu.sou.cs452.Lab5.TokenType.*;
@@ -32,17 +33,23 @@ class Scanner {
     private int start = 0;
     private int current = 0;
     private int line = 1;
-    LiteralNumber globbity; // this creates an instance of the LiteralNumber class
-    LiteralString glob; // this creates an instance of the LiteralString class
     private void scanToken() {
         char c = advance();
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
             case ')': addToken(RIGHT_PAREN); break;
+            case '{': addToken(LEFT_BRACE); break;
+            case '}': addToken(RIGHT_BRACE); break;
+            case ',': addToken(COMMA); break;
             case '.': addToken(DOT); break;
             case '-': addToken(MINUS); break;
             case '+': addToken(PLUS); break;
+            case ';': addToken(SEMICOLON); break;
             case '*': addToken(STAR); break; 
+            case '!': addToken(match('=') ? BANG_EQUAL : BANG); break;
+            case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
+            case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
+            case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
             case '"': string(); break;
             case 'o':
                 if (match('r')) { addToken(OR); }
@@ -55,22 +62,6 @@ class Scanner {
             case '\n':
               line++;
               break;
-            case '/':
-                if (match('*')) {
-                    // A comment goes until the end of the line.
-                    advance();
-                    while (!match('*') || !match('/') ) advance();
-                    
-                }
-                else {
-                    if (match('/')) {
-                        while (peek() != '\n' && !isAtEnd()) advance();
-                    }
-                    else {
-                        addToken(SLASH);
-                    }
-                }
-                break;
             default: 
                 if (isDigit(c)) { number(); }
                 else if (isAlpha(c)) { identifier(); }
@@ -79,14 +70,14 @@ class Scanner {
                 break;
         }
     }
-    /*private void identifier() {
+    private void identifier() {
         while (isAlphaNumeric(peek())) advance();
         String text = source.substring(start, current);
         TokenType type = keywords.get(text);
         if ( type == null ) type = IDENTIFIER;
         addToken(type);
         addToken(IDENTIFIER);
-    }*/
+    }
     private void number() {
         while (isDigit(peek())) advance();
         // Look for a fractional part.
@@ -96,15 +87,15 @@ class Scanner {
     
           while (isDigit(peek())) advance();
         }
-        //globbity.getter(source.substring(start + 1, current - 1));
-        addToken(NUMBER, globbity);
+        //String valueString = source.substring(start, current);
+        //AbstractValue value = new AbstractValue.valueOf(valueString);
+        //addToken(NUMBER, value);
     }
     private void string() {
         while (peek() != '"' && !isAtEnd()) {
           if (peek() == '\n') line++;
           advance();
         }
-    
         if (isAtEnd()) {
           Lox.error(line, "Unterminated string.");
           return;
@@ -113,9 +104,9 @@ class Scanner {
         // The closing ".
         advance();
     
-        // Trim the surrounding quotes.
-        //String value = source.substring(start + 1, current - 1);
-        addToken(STRING, glob);
+        ///String valueString = source.substring(start, current);
+        //AbstractValue value = new AbstractValue.valueOf(valueString);
+        //addToken(STRING, value);
     }
     private char peek() {
         if (isAtEnd()) return '\0';
@@ -137,7 +128,6 @@ class Scanner {
     private boolean match(char expected) {
         if (isAtEnd()) return false;
         if (source.charAt(current) != expected) return false;
-    
         current++;
         return true;
     }
@@ -162,7 +152,7 @@ class Scanner {
     private void addToken(TokenType type) {
         addToken(type, null);
     }
-    private void addToken(TokenType type, LiteralValue literal) {
+    private void addToken(TokenType type, AbstractValue literal) {
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));
     }
