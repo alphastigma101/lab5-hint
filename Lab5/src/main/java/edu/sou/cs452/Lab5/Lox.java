@@ -12,7 +12,7 @@ import java.util.List;
  *  (60 - 5)
  *  (2 * 6) 
  *  (10 - 5)
- * 
+ *  (10 + 70)
 */
 public class Lox {
     private static final Interpreter interpreter = new Interpreter();
@@ -22,12 +22,13 @@ public class Lox {
      * A
     */
     public static void main(String[] args) throws IOException {
-        if ( args.length > 1 ) {
+        /*if ( args.length > 1 ) {
             System.out.println("Usage: jlox [script]");
             System.exit(64); 
         } 
         else if ( args.length == 1 ) { runFile(args[0]); } 
-        else { runPrompt(); }
+        else { runPrompt(); }*/
+        runPrompt();
     }
     /* 
      * A

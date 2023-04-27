@@ -50,7 +50,6 @@ class Scanner {
             case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
             case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
             case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
-            case '"': string(); break;
             case 'o':
                 if (match('r')) { addToken(OR); }
                 break;
@@ -64,19 +63,11 @@ class Scanner {
               break;
             default: 
                 if (isDigit(c)) { number(); }
-                else if (isAlpha(c)) { identifier(); }
+                //else if (isAlpha(c)) { identifier(); }
                 //else { Lox.error(line, "Unexpected character."); }
                 //Lox.error(line, "Unexpected character.");
                 break;
         }
-    }
-    private void identifier() {
-        while (isAlphaNumeric(peek())) advance();
-        String text = source.substring(start, current);
-        TokenType type = keywords.get(text);
-        if ( type == null ) type = IDENTIFIER;
-        addToken(type);
-        addToken(IDENTIFIER);
     }
     private void number() {
         while (isDigit(peek())) advance();
@@ -87,26 +78,20 @@ class Scanner {
     
           while (isDigit(peek())) advance();
         }
-        //String valueString = source.substring(start, current);
-        //AbstractValue value = new AbstractValue.valueOf(valueString);
-        //addToken(NUMBER, value);
-    }
-    private void string() {
-        while (peek() != '"' && !isAtEnd()) {
-          if (peek() == '\n') line++;
-          advance();
+        else if (peek() == '-' && isDigit(peekNext())) {
+            addToken(NUMBER, AbstractValue.NEGATIVE);
+            // Consume the "-"
+            advance();
+
+            while (isDigit(peek())) advance();
         }
-        if (isAtEnd()) {
-          Lox.error(line, "Unterminated string.");
-          return;
+        else if (peek() == '+' && isDigit(peekNext())) {
+            addToken(NUMBER, AbstractValue.POSITIVE);
+            // Consume the "+"
+            advance();
+
+            while (isDigit(peek())) advance();            
         }
-    
-        // The closing ".
-        advance();
-    
-        ///String valueString = source.substring(start, current);
-        //AbstractValue value = new AbstractValue.valueOf(valueString);
-        //addToken(STRING, value);
     }
     private char peek() {
         if (isAtEnd()) return '\0';
@@ -115,12 +100,6 @@ class Scanner {
     private char peekNext() {
         if ( current + 1 >= source.length() ) return '\0';
         return source.charAt(current + 1);
-    }
-    private boolean isAlpha(char c) {
-        return ( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' ) || c == '_';
-    }
-    private boolean isAlphaNumeric(char c) {
-        return isAlpha(c) || isDigit(c);
     }
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';

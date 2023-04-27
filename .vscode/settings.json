@@ -3,8 +3,8 @@
     "java.debug.settings.hotCodeReplace":"manual",
     "java.debug.logLevel":"verbose",
     "java.debug.settings.console":"integratedTerminal",
-    "java.debug.settings.vmArgs": "-Xaggressive -Xenableexplicitgc -Xtrace -Xtune:virtualized"
+    //"java.debug.settings.vmArgs": ""
 
-    // http://setgetweb.com/p/java7/diag/appendixes/cmdline/commands_jvm.html
+    
     // Increase the heap 
 }

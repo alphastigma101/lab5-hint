@@ -1,5 +1,10 @@
 # Lab 5: Abstract Interpretation of Arithmetic Expressions
 
+**mvn archetype:generate -DgroupId=edu.sou.cs452.Lab5 -DartifactId=Lab5 -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false**
+- We can compile the program by executing mvn package within the Lab5 directory.
+
+- We can run the program with **java -cp target/Lab5-1.0-SNAPSHOT.jar edu.sou.cs452.Lab5.Lox**
+
 To begin this lab you must have followed along with the textbook up to and including chapter 7. You should have a working interpreter for JLox that can evaluate arithmetic expressions.
 
 In this lab you will implement a sign analysis abstract interpreter for JLox arithmetic expressions. In later labs we will extend this interpreter to handle statements and control flow.

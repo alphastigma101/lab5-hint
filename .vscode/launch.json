@@ -11,7 +11,18 @@
             "mainClass": "edu.sou.cs452.Lab5.Lox",
             "cwd": "${workspaceFolder}",
             "stopOnEntry": false,
-            "args": "",
+            // In order to avoid stepping into other methods or functions that come with the program language line 15 to 22 do the job
+            "stepFilters": {
+                "skipClasses": [
+                    "$JDK",
+                    "junit.*"
+                ],
+                "skipSynthetics": false,
+                "skipStaticInitializers": false,
+                "skipConstructors": false
+            },
+            "args": "-Xaggressive -Xenableexplicitgc -Xtrace -Xtune:virtualized",
+            // http://setgetweb.com/p/java7/diag/appendixes/cmdline/commands_jvm.html <- You can get a lot more arguments which are passed into here 
             "projectName": "Lab5"
         },
         {
