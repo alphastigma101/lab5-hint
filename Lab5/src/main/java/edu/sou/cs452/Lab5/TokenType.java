@@ -15,6 +15,6 @@ enum TokenType {
   NUMBER,
 
  
-
+  // End of expression
   EOF
 }

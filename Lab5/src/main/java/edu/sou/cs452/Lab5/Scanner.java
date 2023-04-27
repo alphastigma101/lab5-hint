@@ -68,7 +68,7 @@ class Scanner {
 
             while (isDigit(peek())) advance();
         }
-        addToken(NUMBER, AbstractValue.POSITIVE);
+        else { addToken(NUMBER, AbstractValue.POSITIVE); }
     }
     /**
      * This function number()
