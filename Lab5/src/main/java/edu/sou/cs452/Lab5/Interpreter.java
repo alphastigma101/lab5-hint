@@ -45,6 +45,8 @@ class Interpreter implements Expr.Visitor<Object> {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right); 
         switch (expr.operator.type) {
+            case BANG_EQUAL: return !isEqual(left, right);
+            case EQUAL_EQUAL: return isEqual(left, right);
             case GREATER: 
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left > (double)right;
@@ -70,8 +72,6 @@ class Interpreter implements Expr.Visitor<Object> {
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
-            case BANG_EQUAL: return !isEqual(left, right);
-            case EQUAL_EQUAL: return isEqual(left, right);
         }
         // Unreachable.
         return null;
