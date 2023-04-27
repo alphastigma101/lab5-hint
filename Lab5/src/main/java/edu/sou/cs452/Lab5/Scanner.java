@@ -92,6 +92,7 @@ class Scanner {
 
             while (isDigit(peek())) advance();            
         }
+        addToken(NUMBER, AbstractValue.POSITIVE);
     }
     private char peek() {
         if (isAtEnd()) return '\0';
