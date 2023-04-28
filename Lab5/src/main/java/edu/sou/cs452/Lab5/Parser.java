@@ -6,30 +6,38 @@ class Parser {
     private static class ParseError extends RuntimeException {}
     private final List<Token> tokens;
     private int current = 0;
-  
+    /** 
+     * This function consume().....
+     * Will return...
+     * @param types is a enum type of TokenTypes
+     * @param message is a String type. Capitalization String is a wrapper for the object that is declared with 
+     * @return None
+    */
     Parser(List<Token> tokens) { this.tokens = tokens; }
     Expr parse() {
         try { return expression(); } 
         catch (ParseError error) { return null; }
     }
-    private Expr expression() { return equality(); }
-    private Expr equality() {
-        Expr expr = comparison();
-        while (match(BANG_EQUAL, EQUAL_EQUAL)) {
-            Token operator = previous();
-            Expr right = comparison();
-            expr = new Expr.Binary(expr, operator, right);
+    /** 
+     * This function consume().....
+     * Will return...
+     * @param types is a enum type of TokenTypes
+     * @param message is a String type. Capitalization String is a wrapper for the object that is declared with 
+     * @return None
+    */
+    private Expr expression() {  
+        if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
+        else if (match(LEFT_PAREN)) {
+            Expr expr = expression();
+            consume(RIGHT_PAREN, "Expect ')' after expression.");
+            return new Expr.Grouping(expr);
         }
-        return expr;
-    }
-    private Expr comparison() {
-        Expr expr = term();
-        while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
+        else if (match(MINUS, PLUS, STAR, SLASH)) {
             Token operator = previous();
-            Expr right = term();
-            expr = new Expr.Binary(expr, operator, right);
+            Expr right = expression();
+            return new Expr.Binary(new Expr.Literal(previous().literal), operator, right);
         }
-        return expr;
+        return null;
     }
     /** 
      * This function match() iterates through the list of tokens that was created by the Scanner class
@@ -109,64 +117,4 @@ class Parser {
      * @return ...
     */
     private Token previous() { return tokens.get(current - 1); }
-    /** 
-     * This function term()...
-     * Will return...
-     * @param None
-     * @return ...
-    */
-    private Expr term() {
-        Expr expr = factor();
-        while (match(MINUS, PLUS)) {
-            Token operator = previous();
-            Expr right = factor();
-            expr = new Expr.Binary(expr, operator, right);
-        }
-        return expr;
-    }
-    /** 
-     * This function factor()...
-     * Will return...
-     * @param None
-     * @return ...
-    */
-    private Expr factor() {
-        Expr expr = unary();
-        while (match(SLASH, STAR)) {
-            Token operator = previous();
-            Expr right = unary();
-            expr = new Expr.Binary(expr, operator, right);
-        } 
-        return expr;
-    }
-    /** 
-     * This function unary()..
-     * Will return...
-     * @param None
-     * @return ...
-    */
-    private Expr unary() {
-        if (match(BANG, MINUS)) {
-            Token operator = previous();
-            Expr right = unary();
-            return new Expr.Unary(operator, right);
-        }    
-        return primary();
-    }
-    /** 
-     * This function primary()..
-     * Will return...
-     * @param None
-     * @return ...
-    */
-    private Expr primary() {
-        if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
-    
-        if (match(LEFT_PAREN)) {
-            Expr expr = expression();
-            consume(RIGHT_PAREN, "Expect ')' after expression.");
-            return new Expr.Grouping(expr);
-        }
-        return null;
-    }   
 }
