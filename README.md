@@ -184,3 +184,7 @@ Like grouping, unary expressions have a single subexpression that we must evalua
 - we need to decide what happens when you use something other than true or false in a logic operation like ! or any other place where a Boolean is expected.
 - We could just say it’s an error because we don’t roll with implicit conversions, but most dynamically typed languages aren’t that ascetic. Instead, they take the universe of values of all types and partition them into two sets, one of which they define to be “true”, or “truthful”, or (my favorite) “truthy”, and the rest which are “false” or “falsey”. This partitioning is somewhat arbitrary and gets weird in a few languages.
 
+# Notes about creating new instances from subclasses or classes or anything really
+* when you create a new instance of a subclass, any variables that get assigned to it are saved to that instance. In object-oriented programming, a class is a blueprint for creating objects, and an object is an instance of a class. 
+
+* When you create a new object, you are creating a new instance of the class with its own set of instance variables.

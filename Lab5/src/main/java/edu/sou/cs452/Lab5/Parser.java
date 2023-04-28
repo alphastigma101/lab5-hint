@@ -18,34 +18,45 @@ class Parser {
         catch (ParseError error) { return null; }
     }
     /** 
-     * This function consume().....
-     * Will return...
+     * This function expression()...
      * @param types is a enum type of TokenTypes
      * @param message is a String type. Capitalization String is a wrapper for the object that is declared with 
-     * @return None
+     * @return Returns a new instance of a subclass such as Binary and Grouping. When it creates a new instance, it saves the values that were assigned to it
     */
-    private Expr expression() {  
-        if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
-        else if (match(LEFT_PAREN)) {
+    private Expr expression() {
+        if (match(LEFT_PAREN, RIGHT_PAREN)) {
             Expr expr = expression();
-            consume(RIGHT_PAREN, "Expect ')' after expression.");
-            return new Expr.Grouping(expr);
+            if (match(RIGHT_PAREN)) { return new Expr.Grouping(expr); }
+            if (match(MINUS, PLUS, STAR, SLASH)) {
+                Token operator = previous();
+                Expr right = expression();
+                if (previous() == tokens.get(current - 1)) {
+                    pair(expr);
+                    return new Expr.Binary(expr, operator, right);
+                }
+                else { consume(TokenType.RIGHT_PAREN, "Expect ')' after dotted pair.");}
+                throw error(peek(), "Expect a binary operation such as +, -, *, /");
+            }
         }
-        else if (match(MINUS, PLUS, STAR, SLASH)) {
-            Token operator = previous();
-            Expr right = expression();
-            return new Expr.Binary(new Expr.Literal(previous().literal), operator, right);
-        }
-        return null;
+        if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
+        throw error(peek(), "Expect an expression.");
     }
     /** 
+     * This function pair() returns a new instance of grouping which saves the values that were assigned to it 
+     * @param expr is a Expr type 
+     * @return returns new Expr.Grouping(expr);
+    */
+    private Expr pair(Expr expr) {  return new Expr.Grouping(expr); }
+    /** 
      * This function match() iterates through the list of tokens that was created by the Scanner class
-     * Will return true if check() is at the end of the list which check() has to return false
+     * Will return false if the current Token in the list is not the token that was passed into match()
+     * If it does return true, that means we have found the token in the list and will execute the code inside of it
      * @parameter types is a List of TokenTypes
      * @return True or False
     */
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
+            //System.out.println(type);
             if (check(type)) {
                 advance();
                 return true;
@@ -54,11 +65,11 @@ class Parser {
         return false;
     }
     /** 
-     * This function consume().....
-     * Will return...
+     * This function consume() consumes the token by using the function advance()
+     * Will throw an error out if something happens
      * @param types is a enum type of TokenTypes
      * @param message is a String type. Capitalization String is a wrapper for the object that is declared with 
-     * @return None
+     * @return Returns advance()
     */
     private Token consume(TokenType type, String message) {
         if (check(type)) return advance();
@@ -76,44 +87,41 @@ class Parser {
         return new ParseError();
     }
     /** 
-     * This function check()...
-     * Will return...
+     * This function check() checks to see if the element is EOF by calling in isAtEnd(). If it is not, it will call in peek()
+     * If peek() gets called in, it will return the current token and see if the token that was passed into match() matches the token that was returned by peek()
      * @param types is a enum object. Whatever TokenType has inside it, type will be that token
-     * @return ...
+     * @return Will return false if the element of the list is 
     */
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
     }
     /** 
-     * This function advance()...
-     * Will return...
+     * This function advance() advances through the list by incrementing the variable current
      * @param None
-     * @return True or False
+     * @return Will return previous() 
     */
     private Token advance() {
         if (!isAtEnd()) current++;
         return previous();
     }
     /** 
-     * This function isAtEnd()...
-     * Will return true if check() is at the end of the list which check() has to return false
+     * This function isAtEnd() checks to see if the element is EOF by using the function peek().
+     * If the last token is EOF, then it has reached the end of the string and will return true
      * @param None
-     * @return ....
+     * @return Will return False if the current element is not EOF, will return true if the current element is EOF
     */
     private boolean isAtEnd() { return peek().type == EOF; }
     /** 
-     * This function peek()...
-     * Will return true if check() is at the end of the list which check() has to return false
+     * This function peek() gets the current token and returns it back to check()
      * @param None
-     * @return ....
+     * @return Returns the current element of the list 
     */
     private Token peek() { return tokens.get(current); }
     /** 
-     * This function previous()...
-     * Will return true if check() is at the end of the list which check() has to return false
+     * This function previous() gets the previous element of the list which is the previous token 
      * @param None
-     * @return ...
+     * @return Returns the previous element in the list 
     */
     private Token previous() { return tokens.get(current - 1); }
 }
