@@ -185,7 +185,7 @@ abstract class AbstractLattice {
     */
     public final static AbstractValue invert(AbstractValue rightValue) {
         HashMap<AbstractValue, AbstractValue> lookup = new HashMap<>();
-    
+        // right +
         lookup.put(POSITIVE, NEGATIVE);
         lookup.put(NEGATIVE, POSITIVE);
         lookup.put(ZERO, ZERO);

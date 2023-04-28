@@ -21,9 +21,6 @@ class Scanner {
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
             case ')': addToken(RIGHT_PAREN); break;
-            case '{': addToken(LEFT_BRACE); break;
-            case '}': addToken(RIGHT_BRACE); break;
-            case '.': addToken(DOT); break;
             case '-': addToken(MINUS); break;
             case '+': addToken(PLUS); break;
             case '*': addToken(STAR); break;
@@ -49,38 +46,21 @@ class Scanner {
      * @return None 
     */
     private void number() {
-        System.out.println("Scanner number() function needs to be debuged throughly after fixing the expression() function! April 28 2023");
-        while (isDigit(peek())) advance();
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-            // Consume the "."
-            // This needs to be debugged
+        if  (source.charAt(start - 1) != '-') {
+            addToken(NUMBER, AbstractValue.POSITIVE);
             advance();
-    
-            while (isDigit(peek())) advance();
         }
-        else if (peek() == '-' && isDigit(peekNext())) {
-            // Consume the "-"
-            // This needs to be debugged
-            advance();
-            while (isDigit(peek())) advance();
+        else if (source.charAt(start - 1) == '-') {
             addToken(NUMBER, AbstractValue.NEGATIVE);
-        }
-        else if (peek() == '/' && isDigit(peekNext())) {
-            // Consume the "/"
-            // This needs to be debugged
             advance();
-            while (isDigit(peek())) advance();
-            addToken(SLASH,AbstractValue.TOP);
-        }
-        else if (peek() == '*' && isDigit(peekNext())) {
-            // Consume the "*"
-            // This needs to be debugged
+        } 
+        while (!isAtEnd()) {
+            if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.NEGATIVE); }
+            else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
+            else if (source.charAt(current - 1) == '*' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
+            else if (source.charAt(current - 1) == '+' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
             advance();
-            while (isDigit(peek())) advance();
-            addToken(STAR, AbstractValue.TOP);
         }
-        else { addToken(NUMBER, AbstractValue.POSITIVE); }
     }
     /**
      * This function number()
@@ -113,7 +93,7 @@ class Scanner {
     */
     Scanner(String source) { this.source = source; }
     /**
-     * This function number()
+     * This function scanTokens()
      * @param None
      * @return None 
     */
@@ -139,15 +119,17 @@ class Scanner {
     */
     private char advance() { return source.charAt(current++); }
     /**
-     * This function number()
-     * @param None
-     * @return None 
+     * This function addToken() is a helper function 
+     * @param type is a TokenType 
+     * @param null
+     * @return Returns to the general function
     */
     private void addToken(TokenType type) { addToken(type, null); }
     /**
-     * This function number()
-     * @param None
-     * @return None 
+     * This function addToken() is the general function  
+     * @param type is a TokenType 
+     * @param literal is a AbstractValue
+     * @return None
     */
     private void addToken(TokenType type, AbstractValue literal) {
         String text = source.substring(start, current);
