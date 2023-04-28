@@ -56,7 +56,6 @@ class Parser {
     */
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
-            //System.out.println(type);
             if (check(type)) {
                 advance();
                 return true;

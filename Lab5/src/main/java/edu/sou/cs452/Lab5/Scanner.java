@@ -49,28 +49,33 @@ class Scanner {
      * @return None 
     */
     private void number() {
+        System.out.println("Scanner number() function needs to be debuged throughly after fixing the expression() function! April 28 2023");
         while (isDigit(peek())) advance();
         // Look for a fractional part.
         if (peek() == '.' && isDigit(peekNext())) {
-          // Consume the "."
-          advance();
+            // Consume the "."
+            // This needs to be debugged
+            advance();
     
-          while (isDigit(peek())) advance();
+            while (isDigit(peek())) advance();
         }
         else if (peek() == '-' && isDigit(peekNext())) {
             // Consume the "-"
+            // This needs to be debugged
             advance();
             while (isDigit(peek())) advance();
             addToken(NUMBER, AbstractValue.NEGATIVE);
         }
         else if (peek() == '/' && isDigit(peekNext())) {
             // Consume the "/"
+            // This needs to be debugged
             advance();
             while (isDigit(peek())) advance();
             addToken(SLASH,AbstractValue.TOP);
         }
         else if (peek() == '*' && isDigit(peekNext())) {
             // Consume the "*"
+            // This needs to be debugged
             advance();
             while (isDigit(peek())) advance();
             addToken(STAR, AbstractValue.TOP);
