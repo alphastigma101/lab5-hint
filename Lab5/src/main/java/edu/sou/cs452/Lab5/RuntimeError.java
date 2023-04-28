@@ -1,15 +1,14 @@
 package edu.sou.cs452.Lab5;
-
 class RuntimeError extends RuntimeException {
-    /* 
-     * A
-    */
-    final Token token;
-    RuntimeError(Token token, String message) {
-      /* 
-        * A
-      */
-      super(message);
-      this.token = token;
-    }
+  /** 
+    * ....
+    * @param token Is a Token type
+    * @param message is a String type
+    * @return None
+  */
+  RuntimeError(Token token, String message) {
+    super(message);
+    this.token = token;
   }
+  final Token token;
+}

@@ -6,7 +6,6 @@ edu/sou/cs452/Lab5/Token.class
 edu/sou/cs452/Lab5/TokenType.class
 edu/sou/cs452/Lab5/Parser.class
 edu/sou/cs452/Lab5/Expr$Literal.class
-edu/sou/cs452/Lab5/AbstractLattic.class
 edu/sou/cs452/Lab5/Expr.class
 edu/sou/cs452/Lab5/Expr$Visitor.class
 edu/sou/cs452/Lab5/RuntimeError.class

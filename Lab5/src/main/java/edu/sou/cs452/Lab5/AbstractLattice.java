@@ -1,7 +1,7 @@
 package edu.sou.cs452.Lab5;
 import java.util.HashMap; // import the HashMap class
 import static edu.sou.cs452.Lab5.AbstractValue.*;
-abstract class AbstractLattic {
+abstract class AbstractLattice {
     /** 
      * @param leftValue is a AbstractValue type 
      * @param rightValue is a AbstractValue type
@@ -70,7 +70,7 @@ abstract class AbstractLattic {
         // left +
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE);
-        left.put(NEGATIVE, NEGATIVE); // ?
+        left.put(NEGATIVE, NEGATIVE); 
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP); // POSITIVE / TOP = TOP?
@@ -82,7 +82,7 @@ abstract class AbstractLattic {
         left.put(NEGATIVE, POSITIVE);
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP); // NEGATIVE / TOP = NEGATIVE?
+        left.put(TOP, NEGATIVE); // NEGATIVE / TOP = NEGATIVE?
         lookup.put(NEGATIVE, left);
     
         // left 0
@@ -107,7 +107,7 @@ abstract class AbstractLattic {
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE); // POSTIVE / POSITVE = POSITVE?
         left.put(NEGATIVE, NEGATIVE); // ?
-        left.put(ZERO, BOTTOM); // ? 
+        left.put(ZERO, BOTTOM); 
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP); // ?
         lookup.put(TOP, left);
@@ -147,7 +147,7 @@ abstract class AbstractLattic {
         left.put(POSITIVE, ZERO);
         left.put(NEGATIVE, ZERO);
         left.put(ZERO, ZERO);
-        left.put(BOTTOM, BOTTOM);// ZERO * ERROR = ERROR?
+        left.put(BOTTOM, BOTTOM);
         left.put(TOP, ZERO);
         lookup.put(ZERO, left);
     

@@ -10,7 +10,6 @@ abstract class Expr {
         R visitBinaryExpr(Binary expr);
         R visitGroupingExpr(Grouping expr);
         R visitLiteralExpr(Literal expr);
-        R visitUnaryExpr(Unary expr);
     }
     /** 
      * @param Expr.Binary 
@@ -47,20 +46,6 @@ abstract class Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) { return visitor.visitLiteralExpr(this); }
         final AbstractValue value;
-    }
-    /** 
-     * @param Expr.Binary 
-     * @return null if it is not reachable 
-    */
-    static class Unary extends Expr {
-        Unary(Token operator, Expr right) {
-        this.operator = operator;
-        this.right = right;
-        }
-        final Token operator;
-        final Expr right;
-        @Override
-        public <R> R accept(Visitor<R> visitor) { return visitor.visitUnaryExpr(this); }
     }
     /** 
      * @param Expr.Binary 

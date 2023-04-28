@@ -26,11 +26,8 @@ class Scanner {
             case '.': addToken(DOT); break;
             case '-': addToken(MINUS); break;
             case '+': addToken(PLUS); break;
-            case '*': addToken(STAR); break; 
-            case '!': addToken(match('=') ? BANG_EQUAL : BANG); break;
-            case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
-            case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
-            case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
+            case '*': addToken(STAR); break;
+            case '/': addToken(SLASH); break;
             case ' ':
             case '\r':
             case '\t':
@@ -63,17 +60,22 @@ class Scanner {
         else if (peek() == '-' && isDigit(peekNext())) {
             // Consume the "-"
             advance();
-
             while (isDigit(peek())) advance();
-            //String value = source.substring(start, current);
-            //AbstractValue.values();
             addToken(NUMBER, AbstractValue.NEGATIVE);
         }
-        else { 
-            //System.out.println(source.substring(start, current));
-
-            addToken(NUMBER, AbstractValue.POSITIVE); 
+        else if (peek() == '/' && isDigit(peekNext())) {
+            // Consume the "/"
+            advance();
+            while (isDigit(peek())) advance();
+            addToken(SLASH,AbstractValue.TOP);
         }
+        else if (peek() == '*' && isDigit(peekNext())) {
+            // Consume the "*"
+            advance();
+            while (isDigit(peek())) advance();
+            addToken(STAR, AbstractValue.TOP);
+        }
+        else { addToken(NUMBER, AbstractValue.POSITIVE); }
     }
     /**
      * This function number()
@@ -98,20 +100,7 @@ class Scanner {
      * @param None
      * @return None 
     */
-    private boolean isDigit(char c) {
-        return c >= '0' && c <= '9';
-    }
-    /**
-     * This function number()
-     * @param None
-     * @return None 
-    */
-    private boolean match(char expected) {
-        if (isAtEnd()) return false;
-        if (source.charAt(current) != expected) return false;
-        current++;
-        return true;
-    }
+    private boolean isDigit(char c) { return c >= '0' && c <= '9'; }
     /**
      * This function number()
      * @param None
