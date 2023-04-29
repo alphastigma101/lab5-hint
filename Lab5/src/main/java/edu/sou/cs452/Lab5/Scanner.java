@@ -8,6 +8,7 @@ class Scanner {
     private int start = 0;
     private int current = 0;
     private int line = 1;
+    private char Operator;
     /**
      * This function scanTokens()...
      * @param None
@@ -45,31 +46,112 @@ class Scanner {
             // check to see if the number is negative
             addToken(NUMBER, AbstractValue.NEGATIVE);
             advance();
-        } 
+        }
+        else if (source.charAt(start - 1) == '0') {
+            addToken(NUMBER, AbstractValue.ZERO);
+            advance();
+        }
+        scanToken(source);
+    }
+    /**
+     * This function scanToken() is the general function and the other scanToken() that takes no parameters is the helper function
+     * @param None
+     * @return None 
+    */
+    private void scanToken(String source) {
         while (!isAtEnd()) {
-            // Tested with these values: (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * 5)
-            if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { 
-                addToken(MINUS);
-                addToken(NUMBER, AbstractValue.NEGATIVE); 
+            if (peekNext() == '-') { 
+                // Tested with these values: (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * 5)
+                Operator = peekNext();
+                operator(Operator);
             }
-            else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { 
+            else if (peekNext() == '/') { 
                 // This won't work: (-10 / - 6)
                 // Meaning you need to add more code to get it to parse this half of the string: (10 / - 6)
-                addToken(SLASH);
-                addToken(NUMBER, AbstractValue.POSITIVE); 
+                Operator = peekNext();
+                operator(Operator);
             }
-            else if (source.charAt(current - 1) == '*' && isDigit(peekNext())) { 
+            else if (peekNext() == '*') { 
                 // (10 * - 5) will not work...
-                addToken(STAR);
-                addToken(NUMBER, AbstractValue.POSITIVE); 
+                Operator = peekNext();
+                operator(Operator);
             }
-            else if (source.charAt(current - 1) == '+' && isDigit(peekNext())) { 
-                addToken(PLUS);
-                addToken(NUMBER, AbstractValue.POSITIVE); 
+            else if (peekNext() == '+') { 
+                Operator = peekNext();
+                operator(Operator);
             }
+            else if (peekNext() == '0' && !(isDigit(peekNext()))) { addToken(NUMBER, AbstractValue.ZERO); }
             advance();
         }
         addToken(RIGHT_PAREN);
+    }
+    private void operator(char op) {
+        switch (op) {
+            case '/':
+                advance();
+                if (peekNext() == ' ') advance();
+                if (peekNext() == '-') {
+                    advance();
+                    if (isDigit(peekNext())) {
+                        addToken(SLASH);
+                        addToken(NUMBER, AbstractValue.NEGATIVE);
+                    }
+                }
+                else if (peekNext() != '-' && isDigit(peekNext())) {
+                    addToken(SLASH);
+                    addToken(NUMBER, AbstractValue.POSITIVE);
+                }
+                break;
+            case '*':
+                advance();
+                if (peekNext() == ' ') advance();
+                if (peekNext() == '-') {
+                    advance();
+                    if (isDigit(peekNext())) {
+                        addToken(STAR);
+                        addToken(NUMBER, AbstractValue.NEGATIVE);
+                    }
+                }
+                else if (isDigit(peekNext())) {
+                    addToken(STAR);
+                    addToken(NUMBER, AbstractValue.POSITIVE);
+                }
+                break;
+            case '+':
+                advance();
+                if (peekNext() == ' ') advance();
+                if (peekNext() == '-') {
+                    advance();
+                    if (isDigit(peekNext())) {
+                        addToken(PLUS);
+                        addToken(NUMBER, AbstractValue.NEGATIVE);
+                    }
+                }
+                else if (peekNext() != '-') {
+                    if (isDigit(peekNext())) {
+                        addToken(PLUS);
+                        addToken(NUMBER, AbstractValue.POSITIVE);
+                    }
+                }
+                break;
+            case '-':
+                advance();
+                if (peekNext() == ' ') advance();
+                if (isDigit(peekNext())) {
+                    addToken(MINUS);
+                    addToken(NUMBER, AbstractValue.NEGATIVE);
+                }
+                else if ((peekNext() != '-')) { 
+                    advance();
+                    if (isDigit(peekNext())) {
+                        addToken(MINUS);
+                        addToken(NUMBER, AbstractValue.POSITIVE);
+                    }
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid operator: " + op);
+        }
     }
     /**
      * This function peekNext()...
