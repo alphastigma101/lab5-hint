@@ -24,6 +24,8 @@ class Parser {
     private Expr expression() {
         // This is still buggy
         // Whenever you recrusive call it, it changes to the next token in the list
+        // Add back the code in this chapter of the book: https://craftinginterpreters.com/parsing-expressions.html#wiring-up-the-parser 
+        // Clean it up and tweak it. The code I have right now is leading into a dead end 
         if (match(LEFT_PAREN, RIGHT_PAREN)) {
             Expr expr = expression();
             if (match(RIGHT_PAREN)) { pair(expr); }
