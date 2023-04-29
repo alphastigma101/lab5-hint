@@ -52,7 +52,7 @@ class Scanner {
             advance();
         } 
         while (!isAtEnd()) {
-            // Tested with these values: (-10 / - 6), (10 / 5), (10 - 5), (10 + 5), (10 * -5), (10 * 5)
+            // Tested with these values: (-10 / - 6), (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * -5), (10 * 5)
             // They all worked perfectly
             if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.NEGATIVE); }
             else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
@@ -60,15 +60,6 @@ class Scanner {
             else if (source.charAt(current - 1) == '+' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
             advance();
         }
-    }
-    /**
-     * This function number()
-     * @param None
-     * @return None 
-    */
-    private char peek() {
-        if (isAtEnd()) return '\0';
-        return source.charAt(current);
     }
     /**
      * This function number()
