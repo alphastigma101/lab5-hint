@@ -58,29 +58,19 @@ class Interpreter implements Expr.Visitor<Object> {
         Object right = evaluate(expr.right); 
         switch (expr.operator.type) {
             case MINUS:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) { 
-                    System.out.println(Operation.minus((AbstractValue)left, (AbstractValue) right));
-                    return Operation.minus((AbstractValue)left, (AbstractValue) right); 
-                }
+                if (left instanceof AbstractValue && right instanceof AbstractValue) {  return Operation.minus((AbstractValue)left, (AbstractValue) right); }
                 throw new RuntimeError(expr.operator, "Something happened while subtracting");
             case PLUS:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) { 
-                    System.out.println(Operation.plus((AbstractValue)left,(AbstractValue)right));
-                    return Operation.plus((AbstractValue)left,(AbstractValue)right); 
-                } 
+                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.plus((AbstractValue)left,(AbstractValue)right); } 
                 throw new RuntimeError(expr.operator, "Something happened while adding");
             case SLASH:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) {
-                    System.out.println(Operation.divide((AbstractValue) left, (AbstractValue)right));
-                    return Operation.divide((AbstractValue) left, (AbstractValue)right);
-                }
+                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.divide((AbstractValue) left, (AbstractValue)right); }
                 throw new RuntimeError(expr.operator, "Something happened while dividing");
             case STAR:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) {
-                    System.out.println(Operation.multiply((AbstractValue)left, (AbstractValue)right));
-                    return Operation.multiply((AbstractValue)left, (AbstractValue)right);
-                }
+                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.multiply((AbstractValue)left, (AbstractValue)right); }
                 throw new RuntimeError(expr.operator, "Something happened while multiplying");
+            default:
+                break;
         }
         return null;
     }

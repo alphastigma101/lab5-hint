@@ -23,14 +23,14 @@ class Parser {
     */
     private Expr expression() {
         // Whenever you recrusive call it, it changes to the next token in the list
-        // This function now works
         if (match(LEFT_PAREN,RIGHT_PAREN)) {
             Expr expr = expression();
-            if (match(RIGHT_PAREN)) { return pair(expr); } 
+            if (match(RIGHT_PAREN)) { return pair(expr); } // This statement needs to get the inner () 
             else if (match(MINUS, PLUS, STAR, SLASH)) {
                 Token operator = previous();
                 Expr right = expression();
                 if (previous() == tokens.get(current - 1)) {
+                    // This statement gets the outer ()
                     pair(expr);
                     return new Expr.Binary(expr, operator, right);
                 }

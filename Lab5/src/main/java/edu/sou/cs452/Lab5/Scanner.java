@@ -54,6 +54,7 @@ class Scanner {
             }
             else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { 
                 // This won't work: (-10 / - 6)
+                // Meaning you need to add more code to get it to parse this half of the string: (10 / - 6)
                 addToken(SLASH);
                 addToken(NUMBER, AbstractValue.POSITIVE); 
             }
