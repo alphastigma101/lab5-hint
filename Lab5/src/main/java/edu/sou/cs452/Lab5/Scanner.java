@@ -61,18 +61,14 @@ class Scanner {
     private void scanToken(String source) {
         while (!isAtEnd()) {
             if (peekNext() == '-') { 
-                // Tested with these values: (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * 5)
                 Operator = peekNext();
                 operator(Operator);
             }
             else if (peekNext() == '/') { 
-                // This won't work: (-10 / - 6)
-                // Meaning you need to add more code to get it to parse this half of the string: (10 / - 6)
                 Operator = peekNext();
                 operator(Operator);
             }
             else if (peekNext() == '*') { 
-                // (10 * - 5) will not work...
                 Operator = peekNext();
                 operator(Operator);
             }
@@ -85,11 +81,16 @@ class Scanner {
         }
         addToken(RIGHT_PAREN);
     }
+    /**
+     * This function operator() is the general function and the other scanToken() that takes no parameters is the helper function
+     * @param None
+     * @return None 
+    */
     private void operator(char op) {
         switch (op) {
             case '/':
                 advance();
-                if (peekNext() == ' ') advance();
+                if (peekNext() == ' ') advance(); // instead of calling in advance, you could call in scanToken() which should remove the whitespaces
                 if (peekNext() == '-') {
                     advance();
                     if (isDigit(peekNext())) {
