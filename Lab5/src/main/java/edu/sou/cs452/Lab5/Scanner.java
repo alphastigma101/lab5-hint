@@ -36,7 +36,7 @@ class Scanner {
         }
     }
     /**
-     * This function number()
+     * This function number()...
      * @param None
      * @return None 
     */
@@ -62,7 +62,7 @@ class Scanner {
         }
     }
     /**
-     * This function number()
+     * This function peekNext()...
      * @param None
      * @return None 
     */
@@ -71,13 +71,13 @@ class Scanner {
         return source.charAt(current + 1);
     }
     /**
-     * This function number()
+     * This function isDigit()...
      * @param None
      * @return None 
     */
     private boolean isDigit(char c) { return c >= '0' && c <= '9'; }
     /**
-     * This function number()
+     * This function Scanner()...
      * @param None
      * @return None 
     */
@@ -97,13 +97,13 @@ class Scanner {
         return tokens;
     }
     /**
-     * This function number()
+     * This function isAtEnd()....
      * @param None
      * @return None 
     */
     private boolean isAtEnd() { return current >= source.length(); }
     /**
-     * This function number()
+     * This function advance()....
      * @param None
      * @return None 
     */
