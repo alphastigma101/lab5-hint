@@ -1,9 +1,6 @@
 package edu.sou.cs452.Lab5;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 import static edu.sou.cs452.Lab5.TokenType.*;
 class Scanner {
     private final String source;
@@ -35,8 +32,6 @@ class Scanner {
               break;
             default: 
                 if (isDigit(c)) { number(); }
-                //else { Lox.error(line, "Unexpected character."); }
-                //Lox.error(line, "Unexpected character.");
                 break;
         }
     }
@@ -46,15 +41,19 @@ class Scanner {
      * @return None 
     */
     private void number() {
+        // check to see if the number is positive 
         if  (source.charAt(start - 1) != '-') {
             addToken(NUMBER, AbstractValue.POSITIVE);
             advance();
         }
         else if (source.charAt(start - 1) == '-') {
+            // check to see if the number is negative
             addToken(NUMBER, AbstractValue.NEGATIVE);
             advance();
         } 
         while (!isAtEnd()) {
+            // Tested with these values: (-10 / - 6), (10 / 5), (10 - 5), (10 + 5), (10 * -5), (10 * 5)
+            // They all worked perfectly
             if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.NEGATIVE); }
             else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
             else if (source.charAt(current - 1) == '*' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
