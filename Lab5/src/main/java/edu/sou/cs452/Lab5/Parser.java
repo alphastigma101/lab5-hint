@@ -22,11 +22,12 @@ class Parser {
      * @return Returns a new instance of a subclass such as Binary and Grouping. When it creates a new instance, it saves the values that were assigned to it
     */
     private Expr expression() {
-        // This is still probably buggy such as the consume and throw are probably not in the right spot.
-        // Other than that it works as intended
+        // This is still buggy
+        // Whenever you recrusive call it, it changes to the next token in the list
         if (match(LEFT_PAREN, RIGHT_PAREN)) {
             Expr expr = expression();
-            if (match(RIGHT_PAREN)) { return new Expr.Grouping(expr); }
+            if (match(RIGHT_PAREN)) { pair(expr); }
+            expr = expression();
             if (match(MINUS, PLUS, STAR, SLASH)) {
                 Token operator = previous();
                 Expr right = expression();
@@ -38,7 +39,9 @@ class Parser {
                 throw error(peek(), "Expect a binary operation such as +, -, *, /");
             }
         }
-        if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
+        if (match(NUMBER)) { 
+            return new Expr.Literal(previous().literal); 
+        }
         throw error(peek(), "Expect an expression.");
     }
     /** 

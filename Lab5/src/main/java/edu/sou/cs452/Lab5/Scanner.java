@@ -17,11 +17,6 @@ class Scanner {
         char c = advance();
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
-            case ')': addToken(RIGHT_PAREN); break;
-            case '-': addToken(MINUS); break;
-            case '+': addToken(PLUS); break;
-            case '*': addToken(STAR); break;
-            case '/': addToken(SLASH); break;
             case ' ':
             case '\r':
             case '\t':
@@ -52,14 +47,28 @@ class Scanner {
             advance();
         } 
         while (!isAtEnd()) {
-            // Tested with these values: (-10 / - 6), (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * -5), (10 * 5)
-            // They all worked perfectly
-            if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.NEGATIVE); }
-            else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
-            else if (source.charAt(current - 1) == '*' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
-            else if (source.charAt(current - 1) == '+' && isDigit(peekNext())) { addToken(NUMBER, AbstractValue.POSITIVE); }
+            // Tested with these values: (10 / 5), (10 - 5), (-10 - 5) (10 + 5), (-10 + 5), (10 * 5)
+            if (source.charAt(current - 1) == '-' && isDigit(peekNext())) { 
+                addToken(MINUS);
+                addToken(NUMBER, AbstractValue.NEGATIVE); 
+            }
+            else if (source.charAt(current - 1) == '/' && isDigit(peekNext())) { 
+                // This won't work: (-10 / - 6)
+                addToken(SLASH);
+                addToken(NUMBER, AbstractValue.POSITIVE); 
+            }
+            else if (source.charAt(current - 1) == '*' && isDigit(peekNext())) { 
+                // (10 * - 5) will not work...
+                addToken(STAR);
+                addToken(NUMBER, AbstractValue.POSITIVE); 
+            }
+            else if (source.charAt(current - 1) == '+' && isDigit(peekNext())) { 
+                addToken(PLUS);
+                addToken(NUMBER, AbstractValue.POSITIVE); 
+            }
             advance();
         }
+        addToken(RIGHT_PAREN);
     }
     /**
      * This function peekNext()...
