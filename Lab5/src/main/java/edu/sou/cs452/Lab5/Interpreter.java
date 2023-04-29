@@ -34,7 +34,7 @@ class Interpreter implements Expr.Visitor<Object> {
      * @return Returns a string
     */
     private String stringify(Object object) {
-        if ( object == null ) return "nil";
+        if (object == null) return "nil";
         if (object instanceof Double) {
           String text = object.toString();
           if (text.endsWith(".0")) { text = text.substring(0, text.length() - 2); }

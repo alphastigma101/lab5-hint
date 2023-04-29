@@ -9,7 +9,7 @@ class Scanner {
     private int current = 0;
     private int line = 1;
     /**
-     * This function number()
+     * This function scanTokens()...
      * @param None
      * @return None 
     */

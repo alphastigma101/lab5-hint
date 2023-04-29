@@ -6,10 +6,8 @@ class Parser {
     private final List<Token> tokens;
     private int current = 0;
     /** 
-     * This function consume().....
-     * Will return...
-     * @param types is a enum type of TokenTypes
-     * @param message is a String type. Capitalization String is a wrapper for the object that is declared with 
+     * This function is the default constructor for Parse()
+     * @param tokens is a List type
      * @return None
     */
     Parser(List<Token> tokens) { this.tokens = tokens; }
@@ -24,6 +22,8 @@ class Parser {
      * @return Returns a new instance of a subclass such as Binary and Grouping. When it creates a new instance, it saves the values that were assigned to it
     */
     private Expr expression() {
+        // This is still probably buggy such as the consume and throw are probably not in the right spot.
+        // Other than that it works as intended
         if (match(LEFT_PAREN, RIGHT_PAREN)) {
             Expr expr = expression();
             if (match(RIGHT_PAREN)) { return new Expr.Grouping(expr); }
