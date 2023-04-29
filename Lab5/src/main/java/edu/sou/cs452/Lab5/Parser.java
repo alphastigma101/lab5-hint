@@ -22,29 +22,23 @@ class Parser {
      * @return Returns a new instance of a subclass such as Binary and Grouping. When it creates a new instance, it saves the values that were assigned to it
     */
     private Expr expression() {
-        // This is still buggy
         // Whenever you recrusive call it, it changes to the next token in the list
-        // Add back the code in this chapter of the book: https://craftinginterpreters.com/parsing-expressions.html#wiring-up-the-parser 
-        // Clean it up and tweak it. The code I have right now is leading into a dead end 
-        if (match(LEFT_PAREN, RIGHT_PAREN)) {
+        // This function now works
+        if (match(LEFT_PAREN,RIGHT_PAREN)) {
             Expr expr = expression();
-            if (match(RIGHT_PAREN)) { pair(expr); }
-            expr = expression();
-            if (match(MINUS, PLUS, STAR, SLASH)) {
+            if (match(RIGHT_PAREN)) { return pair(expr); } 
+            else if (match(MINUS, PLUS, STAR, SLASH)) {
                 Token operator = previous();
                 Expr right = expression();
                 if (previous() == tokens.get(current - 1)) {
                     pair(expr);
                     return new Expr.Binary(expr, operator, right);
                 }
-                else { consume(TokenType.RIGHT_PAREN, "Expect ')' after dotted pair.");}
                 throw error(peek(), "Expect a binary operation such as +, -, *, /");
-            }
-        }
-        if (match(NUMBER)) { 
-            return new Expr.Literal(previous().literal); 
-        }
-        throw error(peek(), "Expect an expression.");
+            } 
+        } 
+        else if (match(NUMBER)) { return new Expr.Literal(previous().literal); } 
+        throw error(peek(), "Expect an expression."); 
     }
     /** 
      * This function pair() returns a new instance of grouping which saves the values that were assigned to it 
