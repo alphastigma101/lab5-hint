@@ -6,17 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-/*
- * Expressions you should try: 
- *  (1 / 2) 
- *  (60 - 5)
- *  (2 * 6) 
- *  (10 - 5)
- *  (10 + 70)
- *  (0 + 0)
- *  (0 * 0)
- *  (0 / 0)
-*/
+
 public class Lox {
     private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;

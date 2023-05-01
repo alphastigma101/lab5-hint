@@ -65,15 +65,15 @@ abstract class AbstractLattice {
     */
     public final static AbstractValue divide(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
-    
         HashMap<AbstractValue, AbstractValue> left;
+
         // left +
         left = new HashMap<>();
         left.put(POSITIVE, POSITIVE);
         left.put(NEGATIVE, NEGATIVE); 
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP); // POSITIVE / TOP = TOP?
+        left.put(TOP, TOP);
         lookup.put(POSITIVE, left);
     
         // left -
@@ -82,16 +82,16 @@ abstract class AbstractLattice {
         left.put(NEGATIVE, POSITIVE);
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP); // NEGATIVE / TOP = NEGATIVE?
+        left.put(TOP, TOP);
         lookup.put(NEGATIVE, left);
     
         // left 0
         left = new HashMap<>();
-        left.put(POSITIVE, ZERO); // 0 / POSITIVE
-        left.put(NEGATIVE, ZERO); // 0 / NEGATIVE
+        left.put(POSITIVE, ZERO);
+        left.put(NEGATIVE, ZERO);
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, ZERO); // 0 / TOP = 0?
+        left.put(TOP, ZERO);
         lookup.put(ZERO, left);
     
         // left Bottom
@@ -105,13 +105,12 @@ abstract class AbstractLattice {
     
         // left Top
         left = new HashMap<>();
-        left.put(POSITIVE, TOP); // POSTIVE / POSITVE = POSITVE?
-        left.put(NEGATIVE, TOP); // ?
+        left.put(POSITIVE, TOP);
+        left.put(NEGATIVE, TOP);
         left.put(ZERO, BOTTOM); 
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, TOP); // ?
+        left.put(TOP, TOP);
         lookup.put(TOP, left);
-    
         return lookup.get(leftValue).get(rightValue);
     }
     /** 
@@ -121,7 +120,6 @@ abstract class AbstractLattice {
     */
     public final static AbstractValue multiply(AbstractValue leftValue, AbstractValue rightValue) {
         HashMap<AbstractValue, HashMap<AbstractValue, AbstractValue>> lookup = new HashMap<>();
-        // POSITIVE * POSITIVE = VALUE
         HashMap<AbstractValue, AbstractValue> left;
         // left +
         left = new HashMap<>();
@@ -131,9 +129,8 @@ abstract class AbstractLattice {
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
         lookup.put(POSITIVE, left);
-    
+
         // left -
-        // NEGATIVE * POSITIVE = NEGATIVE
         left = new HashMap<>();
         left.put(POSITIVE, NEGATIVE);
         left.put(NEGATIVE, POSITIVE);
@@ -163,7 +160,7 @@ abstract class AbstractLattice {
         // left Top
         left = new HashMap<>();
         left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, TOP); // TOP * NEGATIVE = NEGATIVE?
+        left.put(NEGATIVE, TOP);
         left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
@@ -190,9 +187,7 @@ abstract class AbstractLattice {
         lookup.put(NEGATIVE, POSITIVE);
         lookup.put(ZERO, ZERO);
         lookup.put(BOTTOM, TOP);
-        lookup.put(TOP, BOTTOM);
-
-    
+        lookup.put(TOP, BOTTOM);   
         return lookup.get(rightValue);
     }
 }
