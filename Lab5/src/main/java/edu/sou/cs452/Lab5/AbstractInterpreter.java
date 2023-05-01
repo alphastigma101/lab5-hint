@@ -5,4 +5,6 @@ package edu.sou.cs452.Lab5;
  * This class will behave almost identically to the regular interpreter. 
  * but each key in the environment will map to an AbstractValue instead of a LiteralValue.
 */
-abstract class AbstractInterpreter { }
+abstract class AbstractInterpreter { 
+    
+}
