@@ -13,6 +13,9 @@ import java.util.List;
  *  (2 * 6) 
  *  (10 - 5)
  *  (10 + 70)
+ *  (0 + 0)
+ *  (0 * 0)
+ *  (0 / 0)
 */
 public class Lox {
     private static final Interpreter interpreter = new Interpreter();

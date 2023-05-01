@@ -82,14 +82,14 @@ abstract class AbstractLattice {
         left.put(NEGATIVE, POSITIVE);
         left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
-        left.put(TOP, NEGATIVE); // NEGATIVE / TOP = NEGATIVE?
+        left.put(TOP, TOP); // NEGATIVE / TOP = NEGATIVE?
         lookup.put(NEGATIVE, left);
     
         // left 0
         left = new HashMap<>();
         left.put(POSITIVE, ZERO); // 0 / POSITIVE
         left.put(NEGATIVE, ZERO); // 0 / NEGATIVE
-        left.put(ZERO, ZERO);
+        left.put(ZERO, BOTTOM);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, ZERO); // 0 / TOP = 0?
         lookup.put(ZERO, left);
@@ -105,8 +105,8 @@ abstract class AbstractLattice {
     
         // left Top
         left = new HashMap<>();
-        left.put(POSITIVE, POSITIVE); // POSTIVE / POSITVE = POSITVE?
-        left.put(NEGATIVE, NEGATIVE); // ?
+        left.put(POSITIVE, TOP); // POSTIVE / POSITVE = POSITVE?
+        left.put(NEGATIVE, TOP); // ?
         left.put(ZERO, BOTTOM); 
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP); // ?
@@ -163,7 +163,7 @@ abstract class AbstractLattice {
         // left Top
         left = new HashMap<>();
         left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, NEGATIVE); // TOP * NEGATIVE = NEGATIVE?
+        left.put(NEGATIVE, TOP); // TOP * NEGATIVE = NEGATIVE?
         left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
@@ -176,7 +176,7 @@ abstract class AbstractLattice {
      * @param rightValue is a AbstractValue
     */
     public final static AbstractValue minus(AbstractValue leftValue, AbstractValue rightValue) {
-        return  plus(leftValue, invert(rightValue));
+        return plus(leftValue, invert(rightValue));
     }
     /** 
      * This function should be triggered by the SLASH token 
@@ -186,11 +186,11 @@ abstract class AbstractLattice {
     public final static AbstractValue invert(AbstractValue rightValue) {
         HashMap<AbstractValue, AbstractValue> lookup = new HashMap<>();
         // right +
-        lookup.put(POSITIVE, NEGATIVE); // This should be reversed 
+        lookup.put(POSITIVE, NEGATIVE);
         lookup.put(NEGATIVE, POSITIVE);
         lookup.put(ZERO, ZERO);
-        lookup.put(BOTTOM, BOTTOM);
-        lookup.put(TOP, TOP);
+        lookup.put(BOTTOM, TOP);
+        lookup.put(TOP, BOTTOM);
 
     
         return lookup.get(rightValue);

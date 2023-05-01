@@ -62,7 +62,8 @@ class Scanner {
     */
     private void scanToken(String source) {
         while (!isAtEnd()) {
-            if (peekNext() == '-') { 
+            if (peekNext() == ' ') advance();
+            else if (peekNext() == '-') { 
                 Operator = peekNext();
                 operator(Operator);
             }
