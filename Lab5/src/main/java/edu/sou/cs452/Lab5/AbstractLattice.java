@@ -163,7 +163,7 @@ abstract class AbstractLattice {
         // left Top
         left = new HashMap<>();
         left.put(POSITIVE, TOP);
-        left.put(NEGATIVE, NEGATIVE); // POSITIVE * NEGATIVE = NEGATIVE?
+        left.put(NEGATIVE, NEGATIVE); // TOP * NEGATIVE = NEGATIVE?
         left.put(ZERO, ZERO);
         left.put(BOTTOM, BOTTOM);
         left.put(TOP, TOP);
@@ -186,11 +186,12 @@ abstract class AbstractLattice {
     public final static AbstractValue invert(AbstractValue rightValue) {
         HashMap<AbstractValue, AbstractValue> lookup = new HashMap<>();
         // right +
-        lookup.put(POSITIVE, NEGATIVE);
+        lookup.put(POSITIVE, NEGATIVE); // This should be reversed 
         lookup.put(NEGATIVE, POSITIVE);
         lookup.put(ZERO, ZERO);
         lookup.put(BOTTOM, BOTTOM);
         lookup.put(TOP, TOP);
+
     
         return lookup.get(rightValue);
     }

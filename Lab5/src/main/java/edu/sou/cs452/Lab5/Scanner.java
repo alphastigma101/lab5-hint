@@ -19,6 +19,8 @@ class Scanner {
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
             case ' ':
+                advance();
+                break;
             case '\r':
             case '\t':
               // Ignore whitespace.
@@ -76,7 +78,10 @@ class Scanner {
                 Operator = peekNext();
                 operator(Operator);
             }
-            else if (peekNext() == '0' && !(isDigit(peekNext()))) { addToken(NUMBER, AbstractValue.ZERO); }
+            else if (peekNext() == '0') {
+                // Every other Expressions work besides anythin to do with zeros for example: (0 / 0), (0 + 0)
+                addToken(NUMBER, AbstractValue.ZERO);
+            }
             advance();
         }
         addToken(RIGHT_PAREN);
