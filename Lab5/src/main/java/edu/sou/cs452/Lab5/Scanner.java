@@ -39,8 +39,9 @@ class Scanner {
      * @return None 
     */
     private void number() {
-        // check to see if the number is positive 
+        // add code to check to see if the number is positive 
         if  (source.charAt(start - 1) != '-') {
+            // check and see if it's a zero
             addToken(NUMBER, AbstractValue.POSITIVE);
             advance();
         }
