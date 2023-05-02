@@ -25,19 +25,23 @@ class Parser {
         // Whenever you recrusive call it, it changes to the next token in the list
         if (match(LEFT_PAREN,RIGHT_PAREN)) {
             Expr expr = expression();
-            if (match(RIGHT_PAREN)) { return pair(expr); } // This statement needs to get the inner () 
+            if (match(RIGHT_PAREN)) { 
+                advance();
+                return pair(expr); 
+            }
             else if (match(MINUS, PLUS, STAR, SLASH)) {
                 Token operator = previous();
                 Expr right = expression();
                 if (previous() == tokens.get(current - 1)) {
-                    // This statement gets the outer ()
+                    // This statement gets the inner
                     pair(expr);
                     return new Expr.Binary(expr, operator, right);
                 }
+                else { consume(RIGHT_PAREN, "Expexted a ) at the end of the expression"); }
                 throw error(peek(), "Expect a binary operation such as +, -, *, /");
             } 
         } 
-        else if (match(NUMBER)) { return new Expr.Literal(previous().literal); } 
+        else if (match(NUMBER)) { return new Expr.Literal(previous().literal); }
         throw error(peek(), "Expect an expression."); 
     }
     /** 

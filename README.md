@@ -188,3 +188,10 @@ Like grouping, unary expressions have a single subexpression that we must evalua
 * when you create a new instance of a subclass, any variables that get assigned to it are saved to that instance. In object-oriented programming, a class is a blueprint for creating objects, and an object is an instance of a class. 
 
 * When you create a new object, you are creating a new instance of the class with its own set of instance variables.
+
+# Side Notes:
+* **subclass (child)** - the class that inherits from another class
+* **superclass (parent)** - the class being inherited from
+
+- **Why And When To Use "Inheritance"?**
+    - It is useful for code reusability: reuse attributes and methods of an existing class when you create a new class.

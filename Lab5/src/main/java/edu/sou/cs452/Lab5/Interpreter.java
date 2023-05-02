@@ -9,14 +9,6 @@ package edu.sou.cs452.Lab5;
 
 class Interpreter implements Expr.Visitor<Object> {
     /** 
-     * This is a concrete class that is a subclass of the AbstractLatice class
-     * No code is needed to be implemented inside of it as the code inside of AbstractLattice has final mechinisim on it
-     * @param None
-     * @param None
-     * @return None
-    */
-    static class Operation extends AbstractLattice { }
-    /** 
      * ...
      * @param expression is Expr type
      * @return None
@@ -57,22 +49,72 @@ class Interpreter implements Expr.Visitor<Object> {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right); 
         switch (expr.operator.type) {
+            case BANG_EQUAL: return !isEqual(left, right);
+            case EQUAL_EQUAL: return isEqual(left, right);
+            case GREATER:
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left > (double)right;
+            case GREATER_EQUAL:
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left >= (double)right;
+            case LESS:
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left < (double)right;
+            case LESS_EQUAL:
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left <= (double)right;
             case MINUS:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) {  return Operation.minus((AbstractValue)left, (AbstractValue) right); }
-                throw new RuntimeError(expr.operator, "Something happened while subtracting");
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left - (double)right;
             case PLUS:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.plus((AbstractValue)left,(AbstractValue)right); } 
-                throw new RuntimeError(expr.operator, "Something happened while adding");
+                if (left instanceof Double && right instanceof Double) { return (double)left + (double)right; } 
+                if (left instanceof String && right instanceof String) { return (String)left + (String)right; }
+                break;
             case SLASH:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.divide((AbstractValue) left, (AbstractValue)right); }
-                throw new RuntimeError(expr.operator, "Something happened while dividing");
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left / (double)right;
             case STAR:
-                if (left instanceof AbstractValue && right instanceof AbstractValue) { return Operation.multiply((AbstractValue)left, (AbstractValue)right); }
-                throw new RuntimeError(expr.operator, "Something happened while multiplying");
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left * (double)right;
             default:
                 break;
         }
         return null;
+    }
+    /** 
+     * @param object is a Object Type
+     * @return return false if object is null otherwise, cast object into a boolean and return true
+    */
+    private boolean isTruthy(Object object) {
+        if (object == null) return false;
+        if (object instanceof Boolean) return (boolean)object;
+        return true;
+    }
+    /** 
+     * @param expr is a Expr.Grouping type 
+     * @return evaluate(expr.expression)
+    */
+    private boolean isEqual(Object a, Object b) {
+        if (a == null && b == null) return true;
+        if (a == null) return false;
+    
+        return a.equals(b);
+    }
+    /** 
+     * @param expr is a Expr.Grouping type 
+     * @return evaluate(expr.expression)
+    */
+    private void checkNumberOperand(Token operator, Object operand) {
+        if (operand instanceof Double) return;
+        throw new RuntimeError(operator, "Operand must be a number.");
+    }
+    /** 
+     * @param expr is a Expr.Grouping type 
+     * @return evaluate(expr.expression)
+    */
+    private void checkNumberOperands(Token operator, Object left, Object right) {
+        if (left instanceof Double && right instanceof Double) return;
+        throw new RuntimeError(operator, "Operands must be numbers.");
     }
     /** 
      * @param expr is a Expr.Grouping type 

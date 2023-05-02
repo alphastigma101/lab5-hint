@@ -8,6 +8,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Lox {
+    /** 
+     * Abs is a subclass 
+     * @param None
+     * @return none
+    */
+    private static class Abs extends AbstractInterpreter { }
+    private static final Abs abstractinterpreter = new Abs();
     private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
@@ -62,6 +69,7 @@ public class Lox {
         Expr expression = parser.parse();
         // Stop if there was a syntax error.
         if (hadError) return;
+        abstractinterpreter.interpret(expression);
         interpreter.interpret(expression);
 
         // For now, just print the tokens.
