@@ -195,3 +195,6 @@ Like grouping, unary expressions have a single subexpression that we must evalua
 
 - **Why And When To Use "Inheritance"?**
     - It is useful for code reusability: reuse attributes and methods of an existing class when you create a new class.
+
+- Link to code to which is what your midterm should do: https://github.com/cs452s23/drop
+-  python3 -m hint.py part3 Lab5/src/main/java/edu/sou/cs452/Lab5/AbstractInterpreter.java "Does this look correct?"

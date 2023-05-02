@@ -8,9 +8,8 @@ class Scanner {
     private int start = 0;
     private int current = 0;
     private int line = 1;
-    private char Operator;
     /**
-     * This function scanTokens()...
+     * This function scanToken() it parses the string and adds tokens 
      * @param None
      * @return None 
     */
@@ -36,7 +35,6 @@ class Scanner {
             case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
             case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
             case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
-            case '"': string(); break;
             case 'o':
                 if (match('r')) { addToken(OR); }
                 break;
@@ -50,40 +48,12 @@ class Scanner {
               break;
             default: 
                 if (isDigit(c)) { number(); }
-                //else if (isAlpha(c)) { identifier(); }
-                //else { Lox.error(line, "Unexpected character."); }
                 //Lox.error(line, "Unexpected character.");
                 break;
         }
     }
-    /*private void identifier() {
-        while (isAlphaNumeric(peek())) advance();
-        String text = source.substring(start, current);
-        TokenType type = keywords.get(text);
-        if ( type == null ) type = IDENTIFIER;
-        addToken(type);
-        addToken(IDENTIFIER);
-    }*/
-    private void string() {
-        while (peek() != '"' && !isAtEnd()) {
-          if (peek() == '\n') line++;
-          advance();
-        }
-    
-        if (isAtEnd()) {
-          Lox.error(line, "Unterminated string.");
-          return;
-        }
-    
-        // The closing ".
-        advance();
-    
-        // Trim the surrounding quotes.
-        //String value = source.substring(start + 1, current - 1);
-        //addToken(STRING, glob);
-    }
     /**
-     * This function peeks at the next character in the string
+     * The function peek() peeks at the current character in the string
      * @param None
      * @return The current character back
     */
@@ -93,7 +63,7 @@ class Scanner {
     }
     private char previous() { return source.charAt(current - 1); }
     /**
-     * This function number()...
+     * This function number() Checks to see if the numbers are either negative or positive and will assign a abstractvalue to it
      * @param None
      * @return None 
     */
@@ -128,18 +98,18 @@ class Scanner {
         }
     }
     /**
-     * This function peekNext()...
+     * This function peekNext() it peeks at the next character
      * @param None
-     * @return None 
+     * @return Returns source.charAt(current + 1)
     */
     private char peekNext() {
         if ( current + 1 >= source.length() ) return '\0';
         return source.charAt(current + 1);
     }
     /**
-     * This function peekNext()...
-     * @param None
-     * @return None 
+     * This function is match()
+     * @param expected is a char type
+     * @return returns true and increment current if a match was found otherwise it will return false
     */
     private boolean match(char expected) {
         if (isAtEnd()) return false;
@@ -148,21 +118,21 @@ class Scanner {
         return true;
     }
     /**
-     * This function isDigit()...
+     * This function isDigit() it checks and sees if the character is a integer
      * @param None
      * @return None 
     */
     private boolean isDigit(char c) { return c >= '0' && c <= '9'; }
     /**
-     * This function Scanner()...
-     * @param None
-     * @return None 
+     * This function Scanner() is the default constructor
+     * @param source is a String type
+     * @return None. But it assigns the private variable source with the source which is the string
     */
     Scanner(String source) { this.source = source; }
     /**
      * This function scanTokens()
      * @param None
-     * @return None 
+     * @return returns the tokens 
     */
     List<Token> scanTokens() {
         while (!isAtEnd()) {
@@ -174,15 +144,15 @@ class Scanner {
         return tokens;
     }
     /**
-     * This function isAtEnd()....
+     * This function isAtEnd() checks to see if the string is at the end
      * @param None
-     * @return None 
+     * @return Returns current >= source.length();
     */
     private boolean isAtEnd() { return current >= source.length(); }
     /**
-     * This function advance()....
+     * This function advance() it advances the source by incrementing it
      * @param None
-     * @return None 
+     * @return Returns source.charAt(current++);
     */
     private char advance() { return source.charAt(current++); }
     /**
